@@ -1,0 +1,1192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bash — gift registries and shagun funds</title>
+<meta name="description" content="Set up a wishlist or a shagun fund, share one link, and let your people jump in. No sign-in required.">
+<meta property="og:title" content="Bash — gifting with the volume turned up">
+<meta property="og:description" content="Pick a gift or send shagun in seconds. No sign-in required.">
+<meta name="theme-color" content="#E6007A">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fuchsia:#E6007A;--tangerine:#FF7A29;--gold:#F2B705;--indigo:#1B1035;
+  --cream:#FFF7F0;--ink:#1B1035;--muted:#6E5F80;--card:#FFFFFF;--field:#FFFFFF;
+  --line:rgba(27,16,53,.12);--wash:#FFE9F3;--ok:#0E8A5F;--danger:#C2185B;
+  --grad:linear-gradient(100deg,var(--fuchsia),var(--tangerine));
+  --display:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --body:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--cream:#150C22;--ink:#F4EDFB;--muted:#B3A5C9;--card:#20152F;--field:#2A1D3B;--line:rgba(244,237,251,.14);--wash:#3A1530;--ok:#4FD1A0;--danger:#FF6FA8;color-scheme:dark}
+}
+:root[data-theme="dark"]{--cream:#150C22;--ink:#F4EDFB;--muted:#B3A5C9;--card:#20152F;--field:#2A1D3B;--line:rgba(244,237,251,.14);--wash:#3A1530;--ok:#4FD1A0;--danger:#FF6FA8;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;min-height:100%;overflow-x:hidden;position:relative;-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+a{color:var(--fuchsia)}
+[hidden]{display:none!important}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;z-index:0;pointer-events:none}
+.b1{width:420px;height:420px;background:var(--fuchsia);top:-160px;right:-160px}
+.b2{width:340px;height:340px;background:var(--gold);top:240px;left:-180px;opacity:.35}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:22px 22px 0;max-width:680px;margin:0 auto;position:relative;z-index:1}
+.brand{font-family:var(--display);font-weight:800;font-size:1.4rem;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+.brand span{color:var(--fuchsia)}
+.wrap{max-width:680px;margin:0 auto;padding:0 22px;position:relative;z-index:1}
+footer{padding:40px 22px 50px;text-align:center;color:var(--muted);font-size:.85rem;position:relative;z-index:1}
+
+/* type */
+.display{font-family:var(--display);font-weight:800;letter-spacing:-.02em}
+h1,h2,h3{font-family:var(--display);margin:0}
+.h2{font-size:1.45rem;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+p{margin:0 0 12px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--grad);color:#fff;border:none;padding:14px 24px;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;white-space:nowrap;min-height:48px}
+.btn:hover{filter:brightness(1.06)}
+.btn:disabled{opacity:.6;cursor:progress}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.btn.ghost:hover{border-color:var(--fuchsia);filter:none}
+.btn.sm{padding:9px 14px;font-size:.9rem;min-height:40px;border-radius:10px}
+.btn.wa{background:#1FA855}
+.btn.block{width:100%}
+.link{background:none;border:none;padding:6px 2px;font:inherit;font-size:.88rem;font-weight:600;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.link:hover{color:var(--ink)}
+.link.danger:hover{color:var(--danger)}
+:focus-visible{outline:2.5px solid var(--fuchsia);outline-offset:2px;border-radius:6px}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* hero */
+.hero{padding:52px 0 8px}
+.hero h1{font-size:clamp(2.4rem,9vw,3.3rem);line-height:1.04;margin:0 0 16px}
+.hero h1 em{font-style:normal;color:var(--fuchsia)}
+.lede{color:var(--muted);font-size:1.08rem;line-height:1.55;max-width:36ch;margin:0 0 28px}
+.steps{display:flex;flex-direction:column;gap:16px;margin:48px 0 8px}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step .n{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--fuchsia);flex:none;width:34px}
+.step p{margin:0;color:var(--muted)}
+.step strong{color:var(--ink);display:block;margin-bottom:2px;font-family:var(--display)}
+
+/* sections */
+.section{margin-top:40px}
+.panel{background:var(--card);border-radius:18px;padding:20px;border:1px solid var(--line)}
+.page-head{padding:36px 0 4px}
+.page-head h1{font-size:clamp(2rem,7vw,2.6rem);line-height:1.08}
+.back{display:inline-block;margin-top:22px;font-size:.9rem;color:var(--muted);text-decoration:none;font-weight:600}
+.back:hover{color:var(--ink)}
+
+/* forms */
+form{margin:0}
+.field{display:block;margin:0 0 18px;border:0;padding:0;min-width:0}
+.field>span,.field legend{display:block;font-weight:600;font-size:.95rem;margin-bottom:7px;padding:0}
+.opt{font-style:normal;font-weight:400;color:var(--muted);font-size:.85rem;margin-left:4px}
+.field small{display:block;color:var(--muted);font-size:.83rem;margin-top:6px}
+input[type=text],input[type=url],input[type=number],input[type=date],input:not([type]),textarea{width:100%;padding:13px 15px;border-radius:12px;border:2px solid var(--line);background:var(--field);color:var(--ink);font:inherit;font-size:1rem}
+textarea{resize:vertical;min-height:84px}
+input:focus,textarea:focus{outline:none;border-color:var(--fuchsia)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+@media (max-width:520px){.grid2{grid-template-columns:1fr}}
+.form-error{color:var(--danger);font-weight:600;font-size:.9rem;margin:0 0 14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.chip span{display:inline-block;padding:9px 14px;border-radius:99px;border:2px solid var(--line);font-weight:600;font-size:.92rem;background:var(--field);cursor:pointer;user-select:none}
+.chip input:checked+span{border-color:var(--fuchsia);background:var(--wash)}
+.chip input:focus-visible+span{outline:2.5px solid var(--fuchsia);outline-offset:2px}
+.switch{display:flex;gap:14px;align-items:flex-start;cursor:pointer}
+.switch input{position:absolute;opacity:0;width:1px;height:1px}
+.track{flex:none;width:46px;height:28px;border-radius:99px;background:var(--line);position:relative;transition:background .2s;margin-top:2px}
+.track::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.switch input:checked+.track{background:var(--fuchsia)}
+.switch input:checked+.track::after{transform:translateX(18px)}
+.switch input:focus-visible+.track{outline:2.5px solid var(--fuchsia);outline-offset:2px}
+.switch small{display:block;color:var(--muted);font-size:.86rem}
+.fund-fields{margin-top:18px;padding-left:60px}
+@media (max-width:520px){.fund-fields{padding-left:0}}
+
+/* your bashes */
+.mine{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.mine li{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.emo{font-size:1.5rem;line-height:1}
+.grow{flex:1;min-width:0}
+.grow strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--display)}
+
+/* invite header (guest view) */
+.invite{padding:34px 0 0}
+.invite .emo-big{font-size:3rem;line-height:1;display:block;margin-bottom:14px}
+.invite h1{font-size:clamp(2.5rem,10vw,3.6rem);line-height:1.02;letter-spacing:-.025em;font-weight:800;word-break:break-word}
+.host{margin:12px 0 0;font-size:1.05rem;color:var(--muted)}
+.host strong{color:var(--ink)}
+.when{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:700;padding:6px 13px;border-radius:99px;background:var(--gold);color:var(--indigo)}
+.pill.soft{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.letter{margin-top:22px;background:var(--card);border-left:4px solid var(--fuchsia);border-radius:4px 14px 14px 4px;padding:16px 18px;white-space:pre-line;font-size:1.02rem}
+.letter cite{display:block;margin-top:8px;font-style:normal;color:var(--muted);font-size:.9rem}
+
+/* gifts */
+.gifts{list-style:none;margin:16px 0 0;padding:0;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.gift{display:flex;gap:14px;padding:18px 18px;border-top:1px dashed var(--line);align-items:flex-start}
+.gift:first-child{border-top:0}
+.gift-main{flex:1;min-width:0}
+.gift-name{font-family:var(--display);font-weight:700;font-size:1.12rem;line-height:1.25;word-break:break-word}
+.gift-meta{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:4px;font-size:.9rem;color:var(--muted)}
+.gift-meta .price{color:var(--ink);font-weight:700}
+.gift-meta a{font-weight:600}
+.gift-note{margin:8px 0 0;font-size:.92rem;color:var(--muted)}
+.gift-side{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.gift.taken .gift-name{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--fuchsia);color:var(--muted)}
+.gift.mine-claim{background:var(--wash)}
+.tag{display:inline-block;font-size:.8rem;font-weight:700;padding:5px 11px;border-radius:99px;border:1.5px solid var(--line);color:var(--muted);white-space:nowrap}
+.tag.yours{border-color:var(--fuchsia);color:var(--fuchsia);background:var(--card)}
+.claimline{margin:8px 0 0;font-size:.9rem}
+.claimline .tag{margin-right:6px}
+.inline-form{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.inline-form .field{margin-bottom:12px}
+.gift-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:520px){
+  .gift{flex-direction:column;gap:10px}
+  .gift-side{align-items:flex-start;flex-direction:row;flex-wrap:wrap}
+  .gift-actions{justify-content:flex-start}
+}
+.empty{padding:26px 20px;text-align:center;color:var(--muted)}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+
+/* shagun */
+.meter{margin:14px 0 6px}
+.meter-bar{height:14px;border-radius:99px;background:var(--line);overflow:hidden}
+.meter-fill{height:100%;background:var(--grad);border-radius:99px;transition:width .6s ease}
+.meter-label{display:flex;justify-content:space-between;gap:10px;margin-top:8px;font-size:.92rem;flex-wrap:wrap}
+.meter-label strong{font-family:var(--display);font-size:1.15rem}
+.amounts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.amt{padding:11px 16px;border-radius:12px;border:2px solid var(--line);background:var(--field);color:var(--ink);font:inherit;font-weight:700;cursor:pointer;min-height:46px}
+.amt[aria-pressed="true"]{border-color:var(--fuchsia);background:var(--wash)}
+.paybox{text-align:center}
+.pay-amount{font-family:var(--display);font-weight:800;font-size:2.2rem;line-height:1.1;margin:4px 0 2px}
+.qr{display:inline-block;background:#fff;padding:10px;border-radius:14px;margin:14px 0 6px;line-height:0}
+.qr svg{width:200px;height:200px}
+.upi-row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0 18px}
+.upi-row code{font-family:var(--body);font-weight:700;background:var(--field);border:1px solid var(--line);padding:8px 12px;border-radius:10px;word-break:break-all}
+.divider{height:1px;background:var(--line);margin:20px 0}
+.contribs{list-style:none;margin:14px 0 0;padding:0}
+.contribs li{display:flex;gap:12px;justify-content:space-between;padding:12px 0;border-top:1px dashed var(--line)}
+.contribs li:first-child{border-top:0}
+.contribs .amt-v{font-weight:700;white-space:nowrap}
+.thanks{text-align:center;padding:8px 0}
+.thanks .big{font-size:2.6rem;line-height:1;display:block;margin-bottom:10px}
+
+/* share */
+.share-link{display:flex;gap:8px;margin:12px 0}
+.share-link input{flex:1;min-width:0;font-size:.92rem}
+.note-box{background:var(--wash);border-radius:14px;padding:14px 16px;margin-top:16px;font-size:.92rem}
+.note-box strong{display:block;margin-bottom:2px}
+
+.banner{background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:16px 18px;margin-top:22px}
+.banner h3{font-size:1.15rem;margin-bottom:4px}
+.owner-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:.9rem}
+.cta-own{margin-top:48px;text-align:center}
+.cta-own p{color:var(--muted)}
+.loading{padding:80px 0;text-align:center;color:var(--muted)}
+.loading .dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--fuchsia);margin:0 4px;animation:bounce 1s infinite ease-in-out}
+.loading .dot:nth-child(2){animation-delay:.15s;background:var(--tangerine)}
+.loading .dot:nth-child(3){animation-delay:.3s;background:var(--gold)}
+@keyframes bounce{0%,80%,100%{transform:scale(.6);opacity:.5}40%{transform:scale(1);opacity:1}}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--indigo);color:#fff;padding:12px 18px;border-radius:12px;font-weight:600;font-size:.95rem;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50;max-width:calc(100% - 40px);text-align:center;box-shadow:0 8px 24px rgba(27,16,53,.3)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .toast{background:#F4EDFB;color:#1B1035}}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+
+/* photos, chip-in, extras */
+.gift-top{display:flex;gap:14px;flex:1;min-width:0;align-items:flex-start}
+.thumb{flex:none;width:76px;height:76px;border-radius:12px;object-fit:cover;background:var(--line);display:block}
+.mini-meter{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:10px;max-width:300px}
+.mini-meter>div{height:100%;background:var(--grad);border-radius:99px;transition:width .6s ease}
+.fundline{margin:6px 0 0;font-size:.9rem;color:var(--muted)}
+.fundline strong{color:var(--ink)}
+.tag.done{border-color:var(--ok);color:var(--ok)}
+.tag.group{border-color:var(--gold);color:var(--ink);background:var(--card)}
+.photo-pick{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.photo-pick .ph{flex:none;width:76px;height:76px;border-radius:12px;border:2px dashed var(--line);display:flex;align-items:center;justify-content:center;font-size:1.5rem;overflow:hidden;background:var(--field);color:var(--muted)}
+.photo-pick .ph img{width:100%;height:100%;object-fit:cover}
+.file-btn{position:relative;overflow:hidden}
+.file-btn input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+.chip-list{list-style:none;margin:10px 0 0;padding:0;font-size:.88rem}
+.chip-list li{display:flex;justify-content:space-between;gap:10px;padding:4px 0;color:var(--muted)}
+.chip-list li strong{color:var(--ink);font-weight:600}
+.plus-card{border:2px solid var(--fuchsia)}
+.plus-list{margin:0 0 18px;padding-left:20px;color:var(--ink)}
+.plus-list li{margin:4px 0}
+.danger-zone{margin-top:48px;padding-top:20px;border-top:1px dashed var(--line)}
+.recover{margin-top:28px}
+.recover form{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.recover input{flex:1;min-width:200px}
+.sub-switch{margin-top:6px}
+@media (max-width:520px){.thumb,.photo-pick .ph{width:64px;height:64px}}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div>
+<header class="top"><a class="brand" href="#/">Bash<span>.</span></a><nav id="nav"></nav></header>
+<main class="wrap" id="app"><div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<footer>Bash · gifting that's actually fun to send</footer>
+
+<script>
+/* ============================================================
+   SETTINGS — paste your Supabase details here to go live.
+   Supabase → Project Settings → API:
+     supabaseUrl  = "Project URL"   (https://xxxx.supabase.co)
+     supabaseKey  = the "publishable" key (or the legacy "anon public" key)
+   ============================================================ */
+const CONFIG = {
+  supabaseUrl: 'https://xqqegcvqcqfxtovyjivm.supabase.co',
+  supabaseKey: 'sb_publishable_k_zYUbMOJSjMR4QSFafbeQ_XTukeAez'
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+(function () {
+'use strict';
+
+/* ---------- small helpers ---------- */
+const app = document.getElementById('app');
+const BASE = (CONFIG.supabaseUrl || '').replace(/\/+$/, '');
+const OCCASIONS = {
+  birthday: { label: 'Birthday', emoji: '🎂' },
+  wedding: { label: 'Wedding', emoji: '💍' },
+  baby: { label: 'Baby shower', emoji: '🍼' },
+  housewarming: { label: 'Housewarming', emoji: '🏡' },
+  anniversary: { label: 'Anniversary', emoji: '🥂' },
+  other: { label: 'Something else', emoji: '🎉' }
+};
+const SHAGUN = [501, 1100, 2100, 5100];
+const PLUS_PRICE = 149;
+const UPI_RE = /^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}$/;
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$/;
+const IS_MOBILE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+const KEY_MINE = 'bash_mine', KEY_CLAIMS = 'bash_claims', KEY_NAME = 'bash_guest_name';
+
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const enc = encodeURIComponent;
+const inr = n => '₹' + Math.round(Number(n) || 0).toLocaleString('en-IN');
+const occ = k => OCCASIONS[k] || OCCASIONS.other;
+const safeUrl = u => /^https?:\/\//i.test(u || '') ? u : '';
+const domain = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return 'Link'; } };
+const baseUrl = () => location.href.split('#')[0];
+const guestUrl = slug => baseUrl() + '#/r/' + enc(slug);
+const manageUrl = (slug, tok) => baseUrl() + '#/m/' + enc(slug) + '/' + enc(tok);
+const uid = () => (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'id' + Date.now().toString(16) + Math.random().toString(16).slice(2);
+const people = n => n + ' ' + (n === 1 ? 'person' : 'people');
+
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage off: features degrade */ } }
+};
+function rememberBash(r, token) {
+  const mine = store.get(KEY_MINE, []).filter(m => m.slug !== r.slug);
+  mine.unshift({ slug: r.slug, token, title: r.title, occasion: r.occasion });
+  store.set(KEY_MINE, mine.slice(0, 30));
+}
+const forgetBash = slug => store.set(KEY_MINE, store.get(KEY_MINE, []).filter(m => m.slug !== slug));
+const myTokenFor = slug => (store.get(KEY_MINE, []).find(m => m.slug === slug) || {}).token;
+
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+async function copyText(text, done) {
+  try { await navigator.clipboard.writeText(text); toast(done || 'Link copied'); return; } catch (e) { /* fall back */ }
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); toast(done || 'Link copied'); } catch (e) { toast('Press and hold to copy'); }
+  ta.remove();
+}
+function busy(btn, on, label) {
+  if (!btn) return;
+  if (on) { btn.dataset.label = btn.textContent; btn.textContent = label || 'Saving…'; btn.disabled = true; }
+  else { btn.textContent = btn.dataset.label || btn.textContent; btn.disabled = false; }
+}
+function dateInfo(str) {
+  if (!str) return null;
+  const d = new Date(str + 'T00:00:00');
+  if (isNaN(d)) return null;
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const days = Math.round((d - today) / 86400000);
+  const pretty = d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
+  let rel = '';
+  if (days > 1) rel = 'in ' + days + ' days';
+  else if (days === 1) rel = 'tomorrow';
+  else if (days === 0) rel = "it's today";
+  return { pretty, rel };
+}
+function upiLink(r, amount, note) {
+  const p = new URLSearchParams({ pa: r.upi_id, pn: r.upi_name || r.host_name, am: String(amount), cu: 'INR', tn: note.slice(0, 50) });
+  return 'upi://pay?' + p.toString().replace(/\+/g, '%20');
+}
+function qrSvg(text) {
+  if (typeof window.qrcode !== 'function') return '';
+  try { const q = window.qrcode(0, 'M'); q.addData(text); q.make(); return q.createSvgTag(4, 0); } catch (e) { return ''; }
+}
+const meterHtml = (have, goal, cls) => goal ? `<div class="${cls || 'mini-meter'}"><div style="width:${Math.min(100, have / goal * 100)}%"></div></div>` : '';
+
+/* ---------- backend (Supabase) ---------- */
+function authHeaders(extra) {
+  const h = Object.assign({ apikey: CONFIG.supabaseKey }, extra || {});
+  if (CONFIG.supabaseKey.startsWith('eyJ')) h.Authorization = 'Bearer ' + CONFIG.supabaseKey;
+  return h;
+}
+async function rpc(fn, args) {
+  let res;
+  try {
+    res = await fetch(BASE + '/rest/v1/rpc/' + fn, { method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }), body: JSON.stringify(args) });
+  } catch (e) { throw new Error("Couldn't reach Bash. Check your connection and try again."); }
+  const text = await res.text();
+  let body = null;
+  try { body = text ? JSON.parse(text) : null; } catch (e) { body = null; }
+  if (!res.ok) throw new Error((body && body.message) || 'Something went wrong (error ' + res.status + '). Try again.');
+  return body;
+}
+const api = {
+  createRegistry: d => rpc('create_registry', { p_data: d }),
+  getRegistry: (slug, tok) => rpc('get_registry', { p_slug: slug, p_token: tok || null }),
+  updateRegistry: (slug, tok, d) => rpc('update_registry', { p_slug: slug, p_token: tok, p_data: d }),
+  deleteRegistry: (slug, tok) => rpc('delete_registry', { p_slug: slug, p_token: tok }),
+  saveItem: (slug, tok, item) => rpc('save_item', { p_slug: slug, p_token: tok, p_item: item }),
+  deleteItem: (slug, tok, id) => rpc('delete_item', { p_slug: slug, p_token: tok, p_item: id }),
+  releaseItem: (slug, tok, id) => rpc('release_item', { p_slug: slug, p_token: tok, p_item: id }),
+  claimItem: (id, name, note) => rpc('claim_item', { p_item: id, p_name: name, p_note: note || null }),
+  unclaimItem: (id, ct) => rpc('unclaim_item', { p_item: id, p_claim_token: ct }),
+  addContribution: (slug, name, amount, msg, itemId) => rpc('add_contribution', { p_slug: slug, p_name: name, p_amount: amount, p_message: msg || null, p_item: itemId || null }),
+  requestLinks: email => rpc('request_edit_links', { p_email: email }),
+  async startUpgrade(slug, tok) {
+    let res;
+    try {
+      res = await fetch(BASE + '/functions/v1/bash-checkout', { method: 'POST', headers: authHeaders({ 'Content-Type': 'application/json' }), body: JSON.stringify({ slug, token: tok }) });
+    } catch (e) { throw new Error("Couldn't reach the payment page. Check your connection."); }
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(body.error || "Couldn't open the payment page. Try again in a minute.");
+    return body;
+  }
+};
+
+// Shrinks a photo to a light JPEG in the browser, then uploads it.
+function shrinkImage(file, max) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const s = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+      const c = document.createElement('canvas');
+      c.width = Math.max(1, Math.round(img.naturalWidth * s));
+      c.height = Math.max(1, Math.round(img.naturalHeight * s));
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      c.toBlob(b => b ? resolve(b) : reject(new Error("Couldn't read that photo.")), 'image/jpeg', 0.82);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("That file doesn't look like a photo. Try a JPG or PNG.")); };
+    img.src = url;
+  });
+}
+async function uploadPhoto(file) {
+  const blob = await shrinkImage(file, 1000);
+  const path = uid().replace(/-/g, '') + '.jpg';
+  let res;
+  try {
+    res = await fetch(BASE + '/storage/v1/object/gift-photos/' + path, {
+      method: 'POST', body: blob,
+      headers: authHeaders({ 'Content-Type': 'image/jpeg', 'cache-control': 'max-age=31536000', 'x-upsert': 'false' })
+    });
+  } catch (e) { throw new Error("Couldn't upload the photo. Check your connection."); }
+  if (!res.ok) throw new Error("Couldn't upload that photo. Try a different one.");
+  return BASE + '/storage/v1/object/public/gift-photos/' + path;
+}
+
+/* ---------- event wiring (one listener per event type, swapped per view) ---------- */
+let H = {};
+app.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]');
+  if (!el || !app.contains(el) || !H[el.dataset.act]) return;
+  e.preventDefault();
+  H[el.dataset.act](el, e);
+});
+app.addEventListener('submit', e => {
+  const fn = H['submit:' + e.target.dataset.form];
+  if (!fn) return;
+  e.preventDefault();
+  fn(e.target, e.submitter);
+});
+app.addEventListener('change', e => { const fn = H['change:' + e.target.name]; if (fn) fn(e.target); });
+app.addEventListener('input', e => { const fn = H['input:' + e.target.name]; if (fn) fn(e.target); });
+
+const loading = () => { app.innerHTML = '<div class="loading" aria-label="Loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>'; };
+function showError(form, msg) {
+  let el = form.querySelector('.form-error');
+  if (!el) {
+    el = document.createElement('p'); el.className = 'form-error'; el.setAttribute('role', 'alert');
+    const anchor = form.querySelector('[type=submit]');
+    (anchor && anchor.closest('.btn-row') ? anchor.closest('.btn-row') : anchor || form.lastChild).before(el);
+  }
+  el.textContent = msg;
+}
+
+/* ---------- router ---------- */
+let justCreated = null;
+let upgradeReturn = null; // set when Dodo sends the host back after paying
+(function handleCheckoutReturn() {
+  const qs = new URLSearchParams(location.search);
+  const slug = qs.get('upgraded');
+  if (!slug) return;
+  const tok = myTokenFor(slug);
+  const status = (qs.get('status') || '').toLowerCase();
+  history.replaceState(null, '', location.pathname + (tok ? '#/m/' + enc(slug) + '/' + enc(tok) : '#/r/' + enc(slug)));
+  if (tok) upgradeReturn = { slug, failed: ['failed', 'cancelled', 'canceled'].includes(status) };
+})();
+function route() {
+  H = {};
+  window.scrollTo(0, 0);
+  if (!BASE || !CONFIG.supabaseKey) return viewMessage('Bash is being set up', 'The database connection is missing. Add it in the settings at the bottom of index.html.');
+  const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(p => { try { return decodeURIComponent(p); } catch (e) { return p; } });
+  if (!parts.length) return viewHome();
+  if (parts[0] === 'new') return viewCreate();
+  if (parts[0] === 'r' && parts[1]) return viewGuest(parts[1]);
+  if (parts[0] === 'm' && parts[1] && parts[2]) return viewManage(parts[1], parts[2]);
+  return viewMessage('Page not found', "That link doesn't go anywhere on Bash.");
+}
+window.addEventListener('hashchange', route);
+
+/* ---------- home ---------- */
+function viewHome() {
+  document.title = 'Bash — gift registries and shagun funds';
+  const mine = store.get(KEY_MINE, []);
+  app.innerHTML = `
+    <section class="hero">
+      <h1 class="display">Registries<br>with the volume<br><em>turned up.</em></h1>
+      <p class="lede">Set up a wishlist or a shagun fund, share one link, and let your people jump in — reserving a gift or sending cash takes seconds, no sign-in required.</p>
+      <a class="btn" href="#/new">Start a Bash</a>
+    </section>
+    ${mine.length ? `
+    <section class="section">
+      <h2 class="h2">Your Bashes</h2>
+      <ul class="mine">
+        ${mine.map(m => `
+          <li><span class="emo" aria-hidden="true">${occ(m.occasion).emoji}</span>
+            <div class="grow"><strong>${esc(m.title)}</strong></div>
+            <a class="btn ghost sm" href="#/m/${enc(m.slug)}/${enc(m.token)}">Manage</a>
+          </li>`).join('')}
+      </ul>
+    </section>` : ''}
+    <div class="steps">
+      <div class="step"><div class="n">01</div><div><strong>Start a Bash</strong><p>Pick an occasion, add gifts or a cash goal, get one shareable link.</p></div></div>
+      <div class="step"><div class="n">02</div><div><strong>Send the link</strong><p>Guests open it straight away — no account, no app to download.</p></div></div>
+      <div class="step"><div class="n">03</div><div><strong>Watch it fill up</strong><p>Gifts get claimed, funds get topped up, nothing gets duplicated.</p></div></div>
+    </div>
+    <section class="recover" id="recover">
+      <button class="link" data-act="recover-open">Lost the link to edit your Bash?</button>
+    </section>`;
+
+  H['recover-open'] = () => {
+    document.getElementById('recover').innerHTML = `
+      <p style="margin:0"><strong>Get your edit links by email</strong></p>
+      <p class="muted small" style="margin:2px 0 0">Works for Bashes where you added your email.</p>
+      <form data-form="recover" novalidate>
+        <input type="text" name="email" inputmode="email" autocomplete="email" placeholder="you@example.com" aria-label="Your email">
+        <button class="btn sm" type="submit">Send links</button>
+      </form>`;
+    app.querySelector('#recover input').focus();
+  };
+  H['submit:recover'] = async (form, btn) => {
+    const email = String(new FormData(form).get('email') || '').trim();
+    if (!EMAIL_RE.test(email)) return showError(form, 'Enter the email you used when you made your Bash.');
+    busy(btn, true, 'Sending…');
+    try {
+      await api.requestLinks(email);
+      document.getElementById('recover').innerHTML = `<p style="margin:0"><strong>Check your inbox.</strong></p><p class="muted small">If ${esc(email)} is on any Bash, we've sent the edit links. Look in spam too.</p>`;
+    } catch (e) { busy(btn, false); showError(form, e.message); }
+  };
+}
+
+/* ---------- shared: Bash details form ---------- */
+function detailsFields(r) {
+  r = r || {};
+  const o = r.occasion || 'birthday';
+  return `
+    <fieldset class="field">
+      <legend>What's the occasion?</legend>
+      <div class="chips">
+        ${Object.entries(OCCASIONS).map(([k, v]) => `<label class="chip"><input type="radio" name="occasion" value="${k}" ${k === o ? 'checked' : ''}><span>${v.emoji} ${v.label}</span></label>`).join('')}
+      </div>
+    </fieldset>
+    <label class="field"><span>Name your Bash</span>
+      <input type="text" name="title" maxlength="80" placeholder="Riya's 30th" value="${esc(r.title)}"></label>
+    <div class="grid2">
+      <label class="field"><span>Your name</span>
+        <input type="text" name="host_name" maxlength="60" placeholder="Riya" autocomplete="given-name" value="${esc(r.host_name)}"></label>
+      <label class="field"><span>Date <em class="opt">optional</em></span>
+        <input type="date" name="event_date" value="${esc(r.event_date)}"></label>
+    </div>
+    <label class="field"><span>A note for your guests <em class="opt">optional</em></span>
+      <textarea name="message" rows="3" maxlength="600" placeholder="Honestly, just come. But if you insist on bringing something, here's what I'd love.">${esc(r.message)}</textarea></label>
+    <label class="field"><span>Your email <em class="opt">optional, recommended</em></span>
+      <input type="text" name="host_email" inputmode="email" autocomplete="email" maxlength="120" placeholder="riya@gmail.com" value="${esc(r.host_email)}">
+      <small>We'll email you your edit link, and let you know when gifts get reserved or cash comes in. Guests never see it.</small></label>
+    <div class="panel">
+      <p style="margin:0 0 4px"><strong>Cash by UPI</strong></p>
+      <p class="muted small">Needed for a shagun fund, or for gifts guests chip in on together. Money goes straight to you — Bash never touches it.</p>
+      <div class="grid2">
+        <label class="field"><span>Your UPI ID</span>
+          <input type="text" name="upi_id" maxlength="80" placeholder="riya@okicici" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(r.upi_id)}"></label>
+        <label class="field"><span>Name on UPI <em class="opt">optional</em></span>
+          <input type="text" name="upi_name" maxlength="60" placeholder="Riya Mehra" value="${esc(r.upi_name)}"></label>
+      </div>
+      <label class="switch">
+        <input type="checkbox" name="fund_enabled" ${r.fund_enabled ? 'checked' : ''}>
+        <span class="track" aria-hidden="true"></span>
+        <span><strong>Add a shagun fund</strong><small>A cash pot guests can add to, with an optional goal.</small></span>
+      </label>
+      <div class="fund-fields" ${r.fund_enabled ? '' : 'hidden'}>
+        <label class="field" style="max-width:260px"><span>Goal <em class="opt">optional</em></span>
+          <input type="number" name="fund_goal" min="1" step="1" inputmode="numeric" placeholder="₹ 50,000" value="${r.fund_goal ? esc(r.fund_goal) : ''}"></label>
+      </div>
+    </div>`;
+}
+function readDetails(form) {
+  const f = new FormData(form);
+  const s = k => String(f.get(k) || '').trim();
+  const d = {
+    occasion: s('occasion') || 'other', title: s('title'), host_name: s('host_name'),
+    event_date: s('event_date') || null, message: s('message') || null, host_email: s('host_email') || null,
+    fund_enabled: !!f.get('fund_enabled'), upi_id: s('upi_id') || null, upi_name: s('upi_name') || null,
+    fund_goal: s('fund_goal') ? Math.round(Number(s('fund_goal'))) : null
+  };
+  if (!d.title) return { error: 'Give your Bash a name.' };
+  if (!d.host_name) return { error: 'Add your name so guests know whose Bash it is.' };
+  if (d.host_email && !EMAIL_RE.test(d.host_email)) return { error: "That email doesn't look right." };
+  if (d.upi_id && !UPI_RE.test(d.upi_id)) return { error: 'That UPI ID doesn\'t look right. It should look like name@okicici.' };
+  if (d.fund_enabled && !d.upi_id) return { error: 'Add your UPI ID to turn on the shagun fund.' };
+  if (d.fund_goal !== null && !(d.fund_goal > 0)) return { error: 'The goal needs to be a number above zero, or leave it blank.' };
+  return { data: d };
+}
+const fundToggle = el => { el.closest('form').querySelector('.fund-fields').hidden = !el.checked; };
+
+/* ---------- shared: UPI payment block (shagun fund and chip-ins) ---------- */
+// P = { step: 'form'|'pay'|'done', amount, custom, name, message }
+function payBlock(key, P, r, o) {
+  if (P.step === 'done') {
+    return `<div class="thanks"><span class="big" aria-hidden="true">🙏</span><h3 style="font-size:1.3rem">Thank you, ${esc(P.name)}!</h3>
+      <p class="muted">${esc(r.host_name)} can see ${o.doneWhat}.</p>
+      <button class="link" data-act="pay-again" data-key="${key}">${o.againLabel}</button></div>`;
+  }
+  if (P.step === 'pay') {
+    const link = upiLink(r, P.amount, o.upiNote);
+    const qr = IS_MOBILE ? '' : qrSvg(link);
+    return `
+      <div class="paybox">
+        <p class="muted" style="margin:0">Paying ${esc(r.upi_name || r.host_name)}</p>
+        <div class="pay-amount">${inr(P.amount)}</div>
+        ${IS_MOBILE ? `<a class="btn block" style="margin-top:14px" href="${esc(link)}">Open my UPI app</a>`
+          : (qr ? `<div class="qr" aria-label="UPI QR code">${qr}</div><p class="muted small">Scan with GPay, PhonePe, Paytm or any UPI app.</p>` : '')}
+        <div class="upi-row"><code>${esc(r.upi_id)}</code><button class="btn ghost sm" data-act="copy-upi">Copy UPI ID</button></div>
+        <div class="divider"></div>
+        <p style="margin-bottom:12px">Paid? Let ${esc(r.host_name)} know it's from you.</p>
+        <div class="btn-row" style="justify-content:center">
+          <button class="btn" data-act="paid" data-key="${key}">I've sent ${inr(P.amount)}</button>
+          <button class="btn ghost" data-act="pay-back" data-key="${key}">Change amount</button>
+        </div>
+      </div>`;
+  }
+  return `
+    <form data-form="pay" data-key="${key}" novalidate>
+      <div class="amounts" role="group" aria-label="Choose an amount">
+        ${o.chips.map(c => `<button type="button" class="amt" data-act="amt" data-key="${key}" data-v="${c.v}" aria-pressed="${!P.custom && P.amount === c.v}">${esc(c.label)}</button>`).join('')}
+      </div>
+      <label class="field"><span>Or your own amount</span><input type="number" name="custom" min="1" step="1" inputmode="numeric" placeholder="₹" value="${P.custom && P.amount ? esc(P.amount) : ''}"></label>
+      <label class="field"><span>Your name</span><input type="text" name="pname" maxlength="60" autocomplete="name" value="${esc(P.name)}" placeholder="Dadi, Aman, the Kapoors…"></label>
+      <label class="field"><span>${o.msgLabel} <em class="opt">optional</em></span><textarea name="pmsg" rows="2" maxlength="400">${esc(P.message)}</textarea></label>
+      <div class="btn-row">
+        <button class="btn" type="submit" data-paygo="${key}">${P.amount > 0 ? `Pay ${inr(P.amount)} with UPI` : 'Pay with UPI'}</button>
+        ${o.cancel ? `<button class="btn ghost" type="button" data-act="chip-cancel">Cancel</button>` : ''}
+      </div>
+      <p class="muted small" style="margin:10px 0 0">Money goes straight from your UPI app to ${esc(r.upi_name || r.host_name)}. Bash never touches it.</p>
+    </form>`;
+}
+
+/* ---------- create ---------- */
+function viewCreate() {
+  document.title = 'Start a Bash';
+  app.innerHTML = `
+    <a class="back" href="#/">‹ Back</a>
+    <div class="page-head"><h1>Start a Bash</h1><p class="muted">Takes a minute. You'll add gifts on the next screen.</p></div>
+    <form data-form="create" novalidate style="margin-top:22px">
+      ${detailsFields()}
+      <div style="margin-top:24px"><button class="btn block" type="submit">Create my Bash</button></div>
+    </form>`;
+  H['change:fund_enabled'] = fundToggle;
+  H['submit:create'] = async (form, btn) => {
+    const { data, error } = readDetails(form);
+    if (error) return showError(form, error);
+    busy(btn, true, 'Creating…');
+    try {
+      const res = await api.createRegistry(data);
+      rememberBash({ slug: res.slug, title: data.title, occasion: data.occasion }, res.admin_token);
+      justCreated = res.slug;
+      location.hash = '#/m/' + enc(res.slug) + '/' + enc(res.admin_token);
+    } catch (e) { busy(btn, false); showError(form, e.message); }
+  };
+}
+
+/* ---------- manage (host) ---------- */
+async function viewManage(slug, tok) {
+  loading();
+  const S = { r: null, reveal: false, editDetails: false, editItem: null, fresh: justCreated === slug, photo: {}, pay: null };
+  justCreated = null;
+  if (upgradeReturn && upgradeReturn.slug === slug) { S.pay = upgradeReturn.failed ? 'failed' : 'confirming'; upgradeReturn = null; }
+
+  async function load() {
+    S.r = await api.getRegistry(slug, tok);
+    if (S.r && S.r.is_admin) rememberBash(S.r, tok);
+  }
+  try { await load(); } catch (e) { return viewMessage("Couldn't load this Bash", e.message); }
+  if (!S.r) { forgetBash(slug); return viewMessage("This Bash doesn't exist", 'It may have been deleted, or the link is incomplete.'); }
+  if (!S.r.is_admin) return viewMessage("This edit link isn't valid", 'Check you copied the whole link. To see the guest page instead, use the share link.', '#/r/' + enc(slug), 'Open guest page');
+
+  async function refresh() { try { await load(); } catch (e) { toast(e.message); } render(); }
+
+  function itemForm(it) {
+    it = it || {};
+    const formKey = it.id || 'new';
+    const img = S.photo[formKey] !== undefined ? S.photo[formKey] : (it.image_url || '');
+    const plus = !!S.r.plus;
+    const canGroup = plus && !!S.r.upi_id;
+    const groupHint = !plus ? 'Part of Bash Plus.' : (S.r.upi_id ? 'For bigger gifts. Guests each send part of the price to your UPI.' : 'Add your UPI ID in Edit details to turn this on.');
+    return `
+      <form data-form="item" data-key="${esc(formKey)}" novalidate class="${it.id ? 'inline-form' : ''}">
+        <input type="hidden" name="id" value="${esc(it.id)}">
+        ${plus ? `
+        <div class="photo-pick">
+          <div class="ph">${img ? `<img src="${esc(img)}" alt="">` : '📷'}</div>
+          <div class="btn-row">
+            <label class="btn ghost sm file-btn">${img ? 'Change photo' : 'Add photo'}<input type="file" name="photo" accept="image/*" data-key="${esc(formKey)}"></label>
+            ${img ? `<button class="link" type="button" data-act="photo-remove" data-key="${esc(formKey)}">Remove</button>` : ''}
+          </div>
+        </div>` : `
+        <div class="photo-pick" style="opacity:.75">
+          <div class="ph">📷</div>
+          <p class="muted small" style="margin:0">Gift photos come with Bash Plus. <button class="link" type="button" data-act="goto-plus">See Plus</button></p>
+        </div>`}
+        <label class="field"><span>Gift</span><input type="text" name="name" maxlength="120" placeholder="Kindle Paperwhite" value="${esc(it.name)}"></label>
+        <div class="grid2">
+          <label class="field"><span>Price <em class="opt">optional</em></span><input type="number" name="price" min="1" step="1" inputmode="numeric" placeholder="₹ 13,999" value="${it.price ? esc(it.price) : ''}"></label>
+          <label class="field"><span>Where to buy <em class="opt">optional</em></span><input type="url" name="url" maxlength="500" placeholder="Paste a product link" value="${esc(it.url)}"></label>
+        </div>
+        <label class="field"><span>Note <em class="opt">optional</em></span><input type="text" name="note" maxlength="300" placeholder="Size, colour, anything that helps" value="${esc(it.note)}"></label>
+        <label class="switch" style="margin-bottom:18px;${canGroup ? '' : 'opacity:.6'}">
+          <input type="checkbox" name="group_gift" ${it.group_gift ? 'checked' : ''} ${canGroup ? '' : 'disabled'}>
+          <span class="track" aria-hidden="true"></span>
+          <span><strong>Let guests chip in together</strong><small>${groupHint}</small></span>
+        </label>
+        <div class="btn-row">
+          <button class="btn sm" type="submit">${it.id ? 'Save gift' : 'Add gift'}</button>
+          ${it.id ? '<button class="btn ghost sm" type="button" data-act="cancel-edit">Cancel</button>' : ''}
+        </div>
+      </form>`;
+  }
+
+  function giftRow(it) {
+    if (S.editItem === it.id) return `<li class="gift"><div class="gift-main">${itemForm(it)}</div></li>`;
+    const url = safeUrl(it.url);
+    const chips = S.r.contributions.filter(c => c.item_id === it.id);
+    let status = '';
+    if (it.group_gift) {
+      status = `${meterHtml(it.funded, it.price)}
+        <p class="fundline"><span class="tag group">Chip-in gift</span> <strong>${inr(it.funded)}</strong> of ${inr(it.price)} from ${people(it.chippers)}</p>
+        ${chips.length ? `<ul class="chip-list">${chips.map(c => `<li><span><strong>${esc(c.name)}</strong>${c.message ? ` — “${esc(c.message)}”` : ''}</span><span>${inr(c.amount)}</span></li>`).join('')}</ul>` : ''}`;
+    } else if (it.claimed) {
+      status = S.reveal
+        ? `<p class="claimline"><span class="tag yours">Claimed</span><strong>${esc(it.claimed_by)}</strong>${it.claim_note ? ` — “${esc(it.claim_note)}”` : ''}</p>`
+        : '<p class="claimline"><span class="tag yours">Claimed</span></p>';
+    }
+    return `
+      <li class="gift">
+        <div class="gift-top">
+          ${it.image_url ? `<img class="thumb" src="${esc(it.image_url)}" alt="" loading="lazy">` : ''}
+          <div class="gift-main">
+            <div class="gift-name">${esc(it.name)}</div>
+            <div class="gift-meta">${it.price ? `<span class="price">${inr(it.price)}</span>` : ''}${url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(domain(url))}</a>` : ''}</div>
+            ${it.note ? `<p class="gift-note">${esc(it.note)}</p>` : ''}
+            ${status}
+          </div>
+        </div>
+        <div class="gift-side gift-actions">
+          <button class="link" data-act="edit-item" data-id="${esc(it.id)}">Edit</button>
+          ${it.claimed ? `<button class="link" data-act="release" data-id="${esc(it.id)}">Free up</button>` : ''}
+          <button class="link danger" data-act="del-item" data-id="${esc(it.id)}">Remove</button>
+        </div>
+      </li>`;
+  }
+
+  function render() {
+    const r = S.r;
+    document.title = r.title + ' · Manage';
+    const link = guestUrl(r.slug);
+    const normal = r.items.filter(i => !i.group_gift);
+    const claimed = normal.filter(i => i.claimed).length;
+    const waText = `${occ(r.occasion).emoji} ${r.title}\nHere's my gift list — pick something and it gets marked as taken so nobody doubles up:\n${link}`;
+    const shagun = r.contributions.filter(c => !c.item_id);
+
+    app.innerHTML = `
+      <a class="back" href="#/">‹ All my Bashes</a>
+      ${S.pay === 'confirming' ? `<div class="banner" role="status"><h3>Confirming your payment…</h3><p class="muted" style="margin:0">This usually takes a few seconds. Plus features unlock on this page automatically.</p></div>` : ''}
+      ${S.pay === 'slow' ? `<div class="banner" role="status"><h3>Still confirming</h3><p class="muted" style="margin:0">Your payment is taking longer than usual to confirm. Refresh this page in a minute. If you were charged and Plus doesn't unlock, reply to your payment receipt email.</p></div>` : ''}
+      ${S.pay === 'failed' ? `<div class="banner" role="alert"><h3>Payment didn't go through</h3><p class="muted" style="margin:0">You weren't upgraded. You can try again whenever you like.</p></div>` : ''}
+      ${S.pay === 'done' ? `<div class="banner"><h3>Bash Plus unlocked 🎉</h3><p class="muted" style="margin:0">You can now add gift photos, set up chip-in gifts, and get email alerts.</p></div>` : ''}
+      ${S.fresh ? `<div class="banner"><h3>Your Bash is live 🎉</h3><p class="muted" style="margin:0">Add a few gifts below, then send the link. ${r.host_email ? "We've emailed you your edit link too." : "Bookmark this page — it's how you edit your Bash."}</p></div>` : ''}
+      <div class="page-head">
+        <span class="emo" aria-hidden="true">${occ(r.occasion).emoji}</span>
+        <h1 style="margin-top:8px">${esc(r.title)}</h1>
+        ${r.plus ? '<span class="pill" style="margin-top:10px">Bash Plus ✓</span>' : ''}
+        <div class="btn-row" style="margin-top:10px">
+          <button class="link" data-act="toggle-details">${S.editDetails ? 'Close details' : 'Edit details'}</button>
+          <a class="link" href="#/r/${enc(r.slug)}">See what guests see</a>
+        </div>
+      </div>
+
+      ${S.editDetails ? `
+      <section class="section panel" style="margin-top:20px">
+        <form data-form="details" novalidate>
+          ${detailsFields(r)}
+          <div class="btn-row" style="margin-top:20px"><button class="btn sm" type="submit">Save details</button><button class="btn ghost sm" type="button" data-act="toggle-details">Cancel</button></div>
+        </form>
+      </section>` : (!r.host_email ? `
+      <div class="note-box"><strong>Add your email</strong>Get a ping when gifts are reserved or cash comes in, and a way back in if you lose this page. <button class="link" data-act="toggle-details">Add email</button></div>` : '')}
+
+      <section class="section">
+        <h2 class="h2">Share with guests</h2>
+        <div class="share-link">
+          <input type="text" readonly value="${esc(link)}" aria-label="Guest link">
+          <button class="btn ghost sm" data-act="copy" data-text="${esc(link)}">Copy</button>
+        </div>
+        <div class="btn-row">
+          <a class="btn wa sm" href="https://wa.me/?text=${enc(waText)}" target="_blank" rel="noopener noreferrer">Send on WhatsApp</a>
+          ${navigator.share ? '<button class="btn ghost sm" data-act="native-share">More ways to share</button>' : ''}
+        </div>
+        <div class="note-box"><strong>Your private edit link</strong>Anyone with this link can change your Bash, so keep it to yourself. <button class="link" data-act="copy" data-text="${esc(manageUrl(r.slug, tok))}">Copy edit link</button></div>
+      </section>
+
+      ${r.plus ? '' : `
+      <section class="section" id="plus-sec">
+        <div class="panel plus-card">
+          <span class="pill">Bash Plus</span>
+          <h3 style="font-size:1.35rem;margin:12px 0 6px">Make this Bash extra, for ${inr(PLUS_PRICE)}</h3>
+          <ul class="plus-list">
+            <li>Photos on every gift, so the list looks the part</li>
+            <li>Chip-in gifts, so friends can club together on something big</li>
+            <li>Email alerts when gifts are reserved or cash comes in</li>
+          </ul>
+          <button class="btn" data-act="upgrade">Upgrade for ${inr(PLUS_PRICE)}</button>
+          <p class="muted small" style="margin:10px 0 0">One-time payment for this Bash. Pay by UPI or card, handled securely by Dodo Payments.</p>
+        </div>
+      </section>`}
+
+      <section class="section">
+        <div class="section-head">
+          <div><h2 class="h2">Gifts</h2><p class="muted small" style="margin:0">${r.items.length ? (normal.length ? `${claimed} of ${normal.length} claimed` : `${r.items.length} chip-in ${r.items.length === 1 ? 'gift' : 'gifts'}`) : 'Nothing here yet'}</p></div>
+          ${claimed ? `<button class="link" data-act="reveal">${S.reveal ? "Hide who's getting what" : "Show who's getting what"}</button>` : ''}
+        </div>
+        ${r.items.length ? `<ul class="gifts">${r.items.map(giftRow).join('')}</ul>` : ''}
+        <div class="panel" style="margin-top:14px">
+          <h3 style="font-size:1.1rem;margin-bottom:12px">Add a gift</h3>
+          ${itemForm({})}
+        </div>
+      </section>
+
+      ${r.fund_enabled ? `
+      <section class="section">
+        <h2 class="h2">Shagun fund</h2>
+        <p class="muted small" style="margin:0">Guests pay ${esc(r.upi_id)} directly and tell you here. Check your UPI app to confirm it arrived.</p>
+        <div class="meter">
+          ${r.fund_goal ? `<div class="meter-bar"><div class="meter-fill" style="width:${Math.min(100, r.raised / r.fund_goal * 100)}%"></div></div>` : ''}
+          <div class="meter-label"><span><strong>${inr(r.raised)}</strong> from ${people(r.contributors)}</span>${r.fund_goal ? `<span class="muted">Goal ${inr(r.fund_goal)}</span>` : ''}</div>
+        </div>
+        ${shagun.length ? `<ul class="contribs">${shagun.map(c => `
+          <li><div><strong>${esc(c.name)}</strong>${c.message ? `<div class="muted small">“${esc(c.message)}”</div>` : ''}</div><span class="amt-v">${inr(c.amount)}</span></li>`).join('')}</ul>`
+          : '<p class="muted small">No shagun yet. It shows up here as guests send it.</p>'}
+      </section>` : ''}
+
+      <section class="danger-zone">
+        <button class="link danger" data-act="delete-bash">Delete this Bash</button>
+        <p class="muted small" style="margin:4px 0 0">Removes the page, gifts and all records for good. Guests' links will stop working.</p>
+      </section>`;
+  }
+
+  H['goto-plus'] = () => { const el = document.getElementById('plus-sec'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  H['upgrade'] = async el => {
+    busy(el, true, 'Opening payment…');
+    try {
+      const res = await api.startUpgrade(slug, tok);
+      if (res.already) { toast('This Bash already has Plus'); busy(el, false); return refresh(); }
+      location.href = res.checkout_url;
+    } catch (e) { busy(el, false); toast(e.message); }
+  };
+  H['toggle-details'] = () => { S.editDetails = !S.editDetails; render(); if (S.editDetails) app.querySelector('form[data-form="details"]').scrollIntoView({ block: 'start' }); };
+  H['reveal'] = () => { S.reveal = !S.reveal; render(); };
+  H['copy'] = el => copyText(el.dataset.text);
+  H['native-share'] = () => navigator.share({ title: S.r.title, text: S.r.title + ' — gift list', url: guestUrl(S.r.slug) }).catch(() => {});
+  H['edit-item'] = el => { S.editItem = el.dataset.id; delete S.photo[el.dataset.id]; render(); };
+  H['cancel-edit'] = () => { delete S.photo[S.editItem]; S.editItem = null; render(); };
+  H['change:fund_enabled'] = fundToggle;
+  H['change:photo'] = async el => {
+    const key = el.dataset.key, file = el.files && el.files[0];
+    if (!file) return;
+    const form = el.closest('form');
+    const ph = form.querySelector('.ph');
+    ph.textContent = '…';
+    const submit = form.querySelector('[type=submit]');
+    submit.disabled = true;
+    try {
+      S.photo[key] = await uploadPhoto(file);
+      ph.innerHTML = `<img src="${esc(S.photo[key])}" alt="">`;
+      el.closest('.file-btn').firstChild.textContent = 'Change photo';
+      if (!form.querySelector('[data-act="photo-remove"]')) {
+        el.closest('.btn-row').insertAdjacentHTML('beforeend', `<button class="link" type="button" data-act="photo-remove" data-key="${esc(key)}">Remove</button>`);
+      }
+    } catch (e) {
+      ph.innerHTML = S.photo[key] ? `<img src="${esc(S.photo[key])}" alt="">` : '📷';
+      toast(e.message);
+    }
+    submit.disabled = false;
+    el.value = '';
+  };
+  H['photo-remove'] = el => {
+    const key = el.dataset.key;
+    S.photo[key] = '';
+    const form = el.closest('form');
+    form.querySelector('.ph').textContent = '📷';
+    form.querySelector('.file-btn').firstChild.textContent = 'Add photo';
+    el.remove();
+  };
+  H['del-item'] = async el => {
+    const it = S.r.items.find(i => i.id === el.dataset.id);
+    if (!it) return;
+    const warn = it.claimed ? `Someone has already claimed “${it.name}”. Remove it anyway?`
+      : it.chippers ? `${people(it.chippers)} already chipped in for “${it.name}”. Remove it and those records?` : `Remove “${it.name}”?`;
+    if (!confirm(warn)) return;
+    try { await api.deleteItem(slug, tok, it.id); toast('Gift removed'); } catch (e) { toast(e.message); }
+    refresh();
+  };
+  H['release'] = async el => {
+    const it = S.r.items.find(i => i.id === el.dataset.id);
+    if (!it || !confirm(`Free up “${it.name}” so another guest can pick it?`)) return;
+    try { await api.releaseItem(slug, tok, it.id); toast('Gift is available again'); } catch (e) { toast(e.message); }
+    refresh();
+  };
+  H['delete-bash'] = async el => {
+    if (!confirm(`Delete “${S.r.title}” for good? The guest page, gifts and every record go with it. This can't be undone.`)) return;
+    busy(el, true, 'Deleting…');
+    try {
+      await api.deleteRegistry(slug, tok);
+      forgetBash(slug);
+      toast('Bash deleted');
+      location.hash = '#/';
+    } catch (e) { busy(el, false); toast(e.message); }
+  };
+  H['submit:details'] = async (form, btn) => {
+    const { data, error } = readDetails(form);
+    if (error) return showError(form, error);
+    busy(btn, true);
+    try { await api.updateRegistry(slug, tok, data); S.editDetails = false; toast('Details saved'); await refresh(); }
+    catch (e) { busy(btn, false); showError(form, e.message); }
+  };
+  H['submit:item'] = async (form, btn) => {
+    const f = new FormData(form);
+    const key = form.dataset.key;
+    const existing = S.r.items.find(i => i.id === key);
+    const item = {
+      id: String(f.get('id') || '') || null,
+      name: String(f.get('name') || '').trim(),
+      price: f.get('price') ? Math.round(Number(f.get('price'))) : null,
+      url: String(f.get('url') || '').trim(),
+      note: String(f.get('note') || '').trim(),
+      image_url: S.photo[key] !== undefined ? S.photo[key] : ((existing && existing.image_url) || ''),
+      group_gift: !!f.get('group_gift')
+    };
+    if (!item.name) return showError(form, 'Give the gift a name.');
+    if (item.url && !safeUrl(item.url)) return showError(form, 'Links need to start with https://');
+    if (item.price !== null && !(item.price > 0)) return showError(form, 'Price needs to be a number above zero, or leave it blank.');
+    if (item.group_gift && !item.price) return showError(form, 'Add a price so guests know how much to chip in toward.');
+    busy(btn, true);
+    try {
+      await api.saveItem(slug, tok, item);
+      toast(item.id ? 'Gift saved' : 'Gift added');
+      delete S.photo[key];
+      S.editItem = null; S.fresh = false;
+      await refresh();
+      if (!item.id) { const inp = app.querySelector('.panel form[data-form="item"] input[name="name"]'); if (inp) inp.focus(); }
+    } catch (e) { busy(btn, false); showError(form, e.message); }
+  };
+
+  render();
+
+  if (S.pay === 'confirming') {
+    if (S.r.plus) { S.pay = 'done'; render(); return; }
+    let tries = 0;
+    const timer = setInterval(async () => {
+      tries++;
+      if (!document.body.contains(app) || location.hash.indexOf('#/m/' + enc(slug)) !== 0) return clearInterval(timer);
+      try { await load(); } catch (e) { /* keep trying */ }
+      if (S.r.plus) { clearInterval(timer); S.pay = 'done'; toast('Bash Plus unlocked 🎉'); render(); }
+      else if (tries >= 20) { clearInterval(timer); S.pay = 'slow'; render(); }
+    }, 2500);
+  }
+}
+
+/* ---------- guest ---------- */
+async function viewGuest(slug) {
+  loading();
+  const S = { r: null, claiming: null, chipping: null, pays: {} };
+  async function load() { S.r = await api.getRegistry(slug, null); }
+  try { await load(); } catch (e) { return viewMessage("Couldn't load this Bash", e.message); }
+  if (!S.r) return viewMessage("We couldn't find this Bash", 'Check the link with whoever sent it — part of it may be missing, or the host may have deleted it.');
+
+  const claims = () => store.get(KEY_CLAIMS, {});
+  const itemById = id => S.r.items.find(i => i.id === id);
+  async function refresh() { try { await load(); } catch (e) { toast(e.message); } renderGifts(); renderFund(); }
+
+  function chipOptions(it) {
+    const left = Math.max(0, (it.price || 0) - it.funded);
+    const chips = [500, 1000, 2000, 5000].filter(v => v < left).slice(0, 3).map(v => ({ v, label: inr(v) }));
+    if (left > 0) chips.push({ v: left, label: 'The rest · ' + inr(left) });
+    return chips;
+  }
+  function payState(key) {
+    if (!S.pays[key]) {
+      const it = key === 'fund' ? null : itemById(key);
+      const first = it ? (chipOptions(it)[0] || { v: 500 }).v : 1100;
+      S.pays[key] = { step: 'form', amount: first, custom: false, name: store.get(KEY_NAME, ''), message: '' };
+    }
+    return S.pays[key];
+  }
+  const rerender = key => key === 'fund' ? renderFund() : renderGifts();
+
+  function giftRow(it) {
+    const mine = !!claims()[it.id];
+    const url = safeUrl(it.url);
+    const thumb = it.image_url ? `<img class="thumb" src="${esc(it.image_url)}" alt="" loading="lazy">` : '';
+    let side = '', extra = '', cls = '';
+
+    if (it.group_gift) {
+      const full = it.price && it.funded >= it.price;
+      extra = `${meterHtml(it.funded, it.price)}
+        <p class="fundline"><strong>${inr(it.funded)}</strong> of ${inr(it.price)} chipped in${it.chippers ? ` by ${people(it.chippers)}` : ''}</p>`;
+      if (S.chipping === it.id) {
+        extra += `<div class="inline-form">${payBlock(it.id, payState(it.id), S.r, {
+          chips: chipOptions(it), msgLabel: `A note for ${esc(S.r.host_name)}`, upiNote: 'Gift: ' + it.name,
+          doneWhat: 'you chipped in', againLabel: 'Close', cancel: true })}</div>`;
+      } else if (full) side = '<span class="tag done">Fully funded 🎉</span>';
+      else side = `<button class="btn sm" data-act="chip-open" data-id="${esc(it.id)}">Chip in</button>`;
+    } else if (mine) {
+      cls = 'mine-claim';
+      side = `<span class="tag yours">You're getting this</span><button class="link" data-act="unclaim" data-id="${esc(it.id)}">Undo</button>`;
+    } else if (it.claimed) {
+      cls = 'taken';
+      side = '<span class="tag">Taken</span>';
+    } else if (S.claiming === it.id) {
+      extra = `
+        <form data-form="claim" class="inline-form" novalidate>
+          <input type="hidden" name="id" value="${esc(it.id)}">
+          <label class="field"><span>Your name</span><input type="text" name="name" maxlength="60" autocomplete="name" value="${esc(store.get(KEY_NAME, ''))}" placeholder="So ${esc(S.r.host_name)} knows who to thank"></label>
+          <label class="field"><span>A note for ${esc(S.r.host_name)} <em class="opt">optional</em></span><input type="text" name="note" maxlength="280" placeholder="Only shown if they choose to peek"></label>
+          <div class="btn-row"><button class="btn sm" type="submit">Reserve it</button><button class="btn ghost sm" type="button" data-act="claim-cancel">Cancel</button></div>
+        </form>`;
+    } else {
+      side = `<button class="btn sm" data-act="claim-open" data-id="${esc(it.id)}">I'll get this</button>`;
+    }
+    const showDetails = !it.claimed || mine;
+    return `
+      <li class="gift ${cls}">
+        <div class="gift-top">
+          ${thumb}
+          <div class="gift-main">
+            <div class="gift-name">${esc(it.name)}</div>
+            <div class="gift-meta">${it.price ? `<span class="price">${inr(it.price)}</span>` : ''}${url && showDetails ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${mine ? 'Buy it on ' : 'See it on '}${esc(domain(url))}</a>` : ''}</div>
+            ${it.note && showDetails ? `<p class="gift-note">${esc(it.note)}</p>` : ''}
+            ${extra}
+          </div>
+        </div>
+        ${side ? `<div class="gift-side">${side}</div>` : ''}
+      </li>`;
+  }
+
+  function renderGifts() {
+    const el = document.getElementById('gifts-sec');
+    if (!el) return;
+    const items = S.r.items;
+    if (!items.length) { el.innerHTML = S.r.fund_enabled ? '' : '<div class="panel empty">Nothing on the list yet. Check back soon.</div>'; return; }
+    const normal = items.filter(i => !i.group_gift);
+    const open = normal.filter(i => !i.claimed).length;
+    el.innerHTML = `
+      <div class="section-head"><div><h2 class="h2">Gift list</h2><p class="muted small" style="margin:0">${normal.length ? `Reserve something and it's marked as taken, so nobody doubles up. ${open} of ${normal.length} still up for grabs.` : 'Chip in together on something bigger.'}</p></div></div>
+      <ul class="gifts">${items.map(giftRow).join('')}</ul>`;
+  }
+
+  function renderFund() {
+    const el = document.getElementById('fund-sec');
+    if (!el) return;
+    const r = S.r;
+    if (!r.fund_enabled || !r.upi_id) { el.innerHTML = ''; return; }
+    const meter = (r.fund_goal || r.contributors) ? `
+      <div class="meter">
+        ${r.fund_goal ? `<div class="meter-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${r.fund_goal}" aria-valuenow="${r.raised}"><div class="meter-fill" style="width:${Math.min(100, r.raised / r.fund_goal * 100)}%"></div></div>` : ''}
+        <div class="meter-label">${r.contributors ? `<span><strong>${inr(r.raised)}</strong> from ${people(r.contributors)}</span>` : '<span>Be the first to send shagun</span>'}${r.fund_goal ? `<span class="muted">Goal ${inr(r.fund_goal)}</span>` : ''}</div>
+      </div>` : '';
+    el.innerHTML = `
+      <h2 class="h2">Shagun fund</h2>
+      <p class="muted small" style="margin:0">Rather send cash? Pick an amount and pay by UPI.</p>
+      ${meter}
+      <div class="panel" style="margin-top:14px">${payBlock('fund', payState('fund'), r, {
+        chips: SHAGUN.map(v => ({ v, label: inr(v) })), msgLabel: 'Blessings or a message', upiNote: 'Shagun: ' + r.title,
+        doneWhat: 'your shagun and message', againLabel: 'Send more', cancel: false })}</div>`;
+  }
+
+  function render() {
+    const r = S.r;
+    const dt = dateInfo(r.event_date);
+    const tok = myTokenFor(r.slug);
+    document.title = r.title + ' · Bash';
+    app.innerHTML = `
+      ${tok ? `<div class="owner-bar"><span>This is your Bash. This is what guests see.</span><a class="link" href="#/m/${enc(r.slug)}/${enc(tok)}">Back to editing</a></div>` : ''}
+      <section class="invite">
+        <span class="emo-big" aria-hidden="true">${occ(r.occasion).emoji}</span>
+        <h1>${esc(r.title)}</h1>
+        <p class="host">Hosted by <strong>${esc(r.host_name)}</strong></p>
+        ${dt ? `<div class="when"><span class="pill soft">${esc(dt.pretty)}</span>${dt.rel ? `<span class="pill">${esc(dt.rel)}</span>` : ''}</div>` : ''}
+        ${r.message ? `<blockquote class="letter" style="margin-left:0;margin-right:0">${esc(r.message)}<cite>— ${esc(r.host_name)}</cite></blockquote>` : ''}
+      </section>
+      <section class="section" id="gifts-sec"></section>
+      <section class="section" id="fund-sec"></section>
+      <div class="cta-own"><p>Got your own occasion coming up?</p><a class="btn ghost" href="#/new">Start your own Bash</a></div>`;
+    renderGifts(); renderFund();
+  }
+
+  /* reserving gifts */
+  H['claim-open'] = el => { S.claiming = el.dataset.id; S.chipping = null; renderGifts(); const i = app.querySelector('form[data-form="claim"] input[name="name"]'); if (i) i.focus(); };
+  H['claim-cancel'] = () => { S.claiming = null; renderGifts(); };
+  H['submit:claim'] = async (form, btn) => {
+    const f = new FormData(form);
+    const id = String(f.get('id')), name = String(f.get('name') || '').trim(), note = String(f.get('note') || '').trim();
+    if (!name) return showError(form, `Add your name so ${S.r.host_name} knows who it's from.`);
+    busy(btn, true, 'Reserving…');
+    try {
+      const res = await api.claimItem(id, name, note);
+      store.set(KEY_NAME, name);
+      S.claiming = null;
+      if (res && res.ok) { const c = claims(); c[id] = res.claim_token; store.set(KEY_CLAIMS, c); toast("Reserved! It's yours to get."); }
+      else toast('Someone just grabbed that one. Pick another?');
+      await refresh();
+    } catch (e) { busy(btn, false); showError(form, e.message); }
+  };
+  H['unclaim'] = async el => {
+    const id = el.dataset.id, c = claims();
+    if (!confirm('Give this gift back so someone else can pick it?')) return;
+    try {
+      await api.unclaimItem(id, c[id]);
+      delete c[id]; store.set(KEY_CLAIMS, c);
+      toast("Done — it's back on the list");
+    } catch (e) { toast(e.message); }
+    refresh();
+  };
+
+  /* paying: shagun fund ('fund') and chip-ins (item id) */
+  const keyOf = el => el.dataset.key || (el.form && el.form.dataset.key) || '';
+  const setPayLabel = key => {
+    const b = app.querySelector(`[data-paygo="${key}"]`);
+    const P = S.pays[key];
+    if (b && P) b.textContent = P.amount > 0 ? `Pay ${inr(P.amount)} with UPI` : 'Pay with UPI';
+  };
+  H['chip-open'] = el => { S.chipping = el.dataset.id; S.claiming = null; delete S.pays[el.dataset.id]; renderGifts(); };
+  H['chip-cancel'] = () => { S.chipping = null; renderGifts(); };
+  H['amt'] = el => {
+    const key = keyOf(el), P = payState(key);
+    P.amount = Number(el.dataset.v); P.custom = false;
+    el.closest('form').querySelectorAll('.amt').forEach(b => b.setAttribute('aria-pressed', String(b === el)));
+    const c = el.closest('form').querySelector('input[name="custom"]'); if (c) c.value = '';
+    setPayLabel(key);
+  };
+  H['input:custom'] = el => {
+    const key = keyOf(el), P = payState(key);
+    const v = Math.round(Number(el.value));
+    if (el.value) { P.custom = true; P.amount = v > 0 ? v : 0; el.form.querySelectorAll('.amt').forEach(b => b.setAttribute('aria-pressed', 'false')); }
+    setPayLabel(key);
+  };
+  H['input:pname'] = el => { payState(keyOf(el)).name = el.value; };
+  H['input:pmsg'] = el => { payState(keyOf(el)).message = el.value; };
+  H['submit:pay'] = form => {
+    const key = form.dataset.key, P = payState(key);
+    const f = new FormData(form);
+    P.name = String(f.get('pname') || '').trim();
+    P.message = String(f.get('pmsg') || '').trim();
+    if (!(P.amount >= 1)) return showError(form, 'Pick an amount or type your own.');
+    if (!P.name) return showError(form, `Add your name so ${S.r.host_name} knows who it's from.`);
+    store.set(KEY_NAME, P.name);
+    P.step = 'pay'; rerender(key);
+    const it = key === 'fund' ? null : itemById(key);
+    if (IS_MOBILE) location.href = upiLink(S.r, P.amount, it ? 'Gift: ' + it.name : 'Shagun: ' + S.r.title);
+  };
+  H['copy-upi'] = () => copyText(S.r.upi_id, 'UPI ID copied');
+  H['pay-back'] = el => { payState(keyOf(el)).step = 'form'; rerender(keyOf(el)); };
+  H['pay-again'] = el => {
+    const key = keyOf(el);
+    if (key === 'fund') { const P = payState(key); P.step = 'form'; P.message = ''; renderFund(); }
+    else { S.chipping = null; delete S.pays[key]; renderGifts(); }
+  };
+  H['paid'] = async el => {
+    const key = keyOf(el), P = payState(key);
+    busy(el, true, 'Sending…');
+    try {
+      await api.addContribution(slug, P.name, P.amount, P.message, key === 'fund' ? null : key);
+      P.step = 'done';
+      await load(); rerender(key);
+    } catch (e) { busy(el, false); toast(e.message); }
+  };
+
+  render();
+}
+
+/* ---------- messages ---------- */
+function viewMessage(title, text, href, label) {
+  document.title = title;
+  app.innerHTML = `
+    <div class="page-head" style="padding-top:60px">
+      <h1>${esc(title)}</h1>
+      <p class="muted" style="margin-top:10px;max-width:44ch">${esc(text)}</p>
+      <div class="btn-row" style="margin-top:20px">
+        ${href ? `<a class="btn" href="${esc(href)}">${esc(label)}</a>` : ''}
+        <a class="btn ${href ? 'ghost' : ''}" href="#/">Go to Bash home</a>
+      </div>
+    </div>`;
+}
+
+route();
+})();
+</script>
+</body>
+</html>
