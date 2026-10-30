@@ -30,7 +30,8 @@
 }
 :root[data-theme="dark"]{--cream:#150C22;--ink:#F4EDFB;--muted:#B3A5C9;--card:#20152F;--field:#2A1D3B;--line:rgba(244,237,251,.14);--wash:#3A1530;--ok:#4FD1A0;--danger:#FF6FA8;color-scheme:dark}
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);overflow-x:hidden}
+@supports (overflow:clip){html{overflow-x:clip}}
 body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;min-height:100%;overflow-x:hidden;position:relative;-webkit-font-smoothing:antialiased}
 img,svg{max-width:100%}
 a{color:var(--fuchsia)}
@@ -38,11 +39,12 @@ a{color:var(--fuchsia)}
 .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;z-index:0;pointer-events:none}
 .b1{width:420px;height:420px;background:var(--fuchsia);top:-160px;right:-160px}
 .b2{width:340px;height:340px;background:var(--gold);top:240px;left:-180px;opacity:.35}
-header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:22px 22px 0;max-width:680px;margin:0 auto;position:relative;z-index:1}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:22px 22px 0;max-width:1180px;margin:0 auto;position:relative;z-index:1}
 .brand{font-family:var(--display);font-weight:800;font-size:1.4rem;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
 .brand span{color:var(--fuchsia)}
-.wrap{max-width:680px;margin:0 auto;padding:0 22px;position:relative;z-index:1}
-footer{padding:40px 22px 50px;text-align:center;color:var(--muted);font-size:.85rem;position:relative;z-index:1}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px;position:relative;z-index:1}
+.narrow{max-width:720px;margin-left:auto;margin-right:auto}
+footer{padding:40px 22px 50px;text-align:center;color:var(--muted);font-size:.85rem;position:relative;z-index:1;max-width:1180px;margin:0 auto}
 
 /* type */
 .display{font-family:var(--display);font-weight:800;letter-spacing:-.02em}
@@ -290,6 +292,31 @@ footer a{color:var(--muted)}
 .opt-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .opt-row input[type=radio]{width:20px;height:20px;accent-color:var(--fuchsia);flex:none}
 .opt-row input[type=text]{flex:1;min-width:0;padding:10px 12px}
+
+/* ---------- wide screens: centered two-column layout ---------- */
+.preview{display:none}
+.preview-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 24px 60px -24px rgba(230,0,122,.35);transform:rotate(-1.5deg)}
+.preview-card .emo{font-size:2rem}
+.preview-title{font-family:var(--display);font-weight:800;font-size:1.6rem;line-height:1.1;margin-top:8px}
+.preview-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px dashed var(--line);font-weight:600}
+.preview-row.taken>span:first-child{text-decoration:line-through;text-decoration-color:var(--fuchsia);color:var(--muted)}
+.preview-row .btn{pointer-events:none;flex:none}
+.preview-quiz{margin-top:12px;background:var(--field);border:1.5px solid var(--gold);border-radius:12px;padding:10px 12px;font-size:.9rem}
+.gift-side.gift-actions{flex-direction:row;align-items:center}
+@media (min-width:960px){
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;padding-top:72px}
+  .hero-grid h1{font-size:4.2rem}
+  .preview{display:block}
+  .steps{flex-direction:row;gap:28px;margin-top:72px}
+  .step{flex:1;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+  .layout{display:grid;grid-template-columns:minmax(320px,400px) minmax(0,1fr);gap:56px;align-items:start}
+  .layout>.main{padding-top:34px}
+  .layout>.main>.section:first-child{margin-top:0}
+  .layout>.side>.page-head{padding-top:34px}
+  .invite h1{font-size:3rem}
+  #recover,.mine{max-width:720px}
+}
+@media (min-width:1200px){.layout{gap:72px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -626,10 +653,25 @@ function viewHome() {
   document.title = 'Bash — gift registries and shagun funds';
   const mine = store.get(KEY_MINE, []);
   app.innerHTML = `
-    <section class="hero">
-      <h1 class="display">Registries<br>with the volume<br><em>turned up.</em></h1>
-      <p class="lede">Set up a wishlist or a shagun fund, share one link, and let your people jump in — reserving a gift or sending cash takes seconds, no sign-in required.</p>
-      <a class="btn" href="#/new">Start a Bash</a>
+    <section class="hero hero-grid">
+      <div>
+        <h1 class="display">Registries<br>with the volume<br><em>turned up.</em></h1>
+        <p class="lede">Set up a wishlist or a shagun fund, share one link, and let your people jump in — reserving a gift or sending cash takes seconds, no sign-in required.</p>
+        <a class="btn" href="#/new">Start a Bash</a>
+      </div>
+      <div class="preview" role="img" aria-label="Example of a Bash gift list">
+        <div class="preview-card">
+          <span class="emo" aria-hidden="true">💍</span>
+          <div class="preview-title">Riya &amp; Kabir’s Wedding</div>
+          <p class="muted small" style="margin:2px 0 14px">Hosted by Riya · in 23 days</p>
+          <div class="mini-meter" style="max-width:none;margin:0"><div style="width:66%"></div></div>
+          <p class="small" style="margin:6px 0 14px"><strong>4 of 6 gifts sorted</strong> · Halfway there ✓</p>
+          <div class="preview-row taken"><span>Le Creuset Dutch oven</span><span class="tag">Taken</span></div>
+          <div class="preview-row"><span>Espresso machine<br><small class="muted">₹24,000</small></span><span class="btn sm">I’ll get this</span></div>
+          <div class="preview-row"><span>Weekend in Coorg<br><small class="muted">₹9,000 of ₹15,000 chipped in</small></span><span class="btn sm ghost">Chip in</span></div>
+          <div class="preview-quiz">🎯 How well do you know Riya? <strong>14 played</strong></div>
+        </div>
+      </div>
     </section>
     ${mine.length ? `
     <section class="section">
@@ -799,12 +841,14 @@ function payBlock(key, P, r, o) {
 function viewCreate() {
   document.title = 'Start a Bash';
   app.innerHTML = `
+    <div class="narrow">
     <a class="back" href="#/">‹ Back</a>
     <div class="page-head"><h1>Start a Bash</h1><p class="muted">Takes a minute. You'll add gifts on the next screen.</p></div>
     <form data-form="create" novalidate style="margin-top:22px">
       ${detailsFields()}
       <div style="margin-top:24px"><button class="btn block" type="submit">Create my Bash</button></div>
-    </form>`;
+    </form>
+    </div>`;
   H['change:fund_enabled'] = fundToggle;
   H['submit:create'] = async (form, btn) => {
     const { data, error } = readDetails(form);
@@ -960,6 +1004,8 @@ async function viewManage(slug, tok) {
       ${S.pay === 'failed' ? `<div class="banner" role="alert"><h3>Payment didn't go through</h3><p class="muted" style="margin:0">You weren't upgraded. You can try again whenever you like.</p></div>` : ''}
       ${S.pay === 'done' ? `<div class="banner"><h3>Bash Plus unlocked 🎉</h3><p class="muted" style="margin:0">You can now add gift photos, set up chip-in gifts, and get email alerts.</p></div>` : ''}
       ${S.fresh ? `<div class="banner"><h3>Your Bash is live 🎉</h3><p class="muted" style="margin:0">Add a few gifts below, then send the link. ${r.host_email ? "We've emailed you your edit link too." : "Bookmark this page — it's how you edit your Bash."}</p></div>` : ''}
+      <div class="layout">
+      <aside class="side">
       <div class="page-head">
         <span class="emo" aria-hidden="true">${occ(r.occasion).emoji}</span>
         <h1 style="margin-top:8px">${esc(r.title)}</h1>
@@ -970,14 +1016,8 @@ async function viewManage(slug, tok) {
         </div>
       </div>
 
-      ${S.editDetails ? `
-      <section class="section panel" style="margin-top:20px">
-        <form data-form="details" novalidate>
-          ${detailsFields(r)}
-          <div class="btn-row" style="margin-top:20px"><button class="btn sm" type="submit">Save details</button><button class="btn ghost sm" type="button" data-act="toggle-details">Cancel</button></div>
-        </form>
-      </section>` : (!r.host_email ? `
-      <div class="note-box"><strong>Add your email</strong>Get a ping when gifts are reserved or cash comes in, and a way back in if you lose this page. <button class="link" data-act="toggle-details">Add email</button></div>` : '')}
+      ${!S.editDetails && !r.host_email ? `
+      <div class="note-box"><strong>Add your email</strong>Get a ping when gifts are reserved or cash comes in, and a way back in if you lose this page. <button class="link" data-act="toggle-details">Add email</button></div>` : ''}
 
       <section class="section">
         <h2 class="h2">Share with guests</h2>
@@ -991,8 +1031,6 @@ async function viewManage(slug, tok) {
         </div>
         <div class="note-box"><strong>Your private edit link</strong>Anyone with this link can change your Bash, so keep it to yourself. <button class="link" data-act="copy" data-text="${esc(manageUrl(r.slug, tok))}">Copy edit link</button></div>
       </section>
-
-      ${r.items.length ? `<section class="section"><h2 class="h2">Milestones</h2>${milestoneHtml(r, true)}</section>` : ''}
 
       ${r.plus ? '' : `
       <section class="section" id="plus-sec">
@@ -1008,6 +1046,18 @@ async function viewManage(slug, tok) {
           <p class="muted small" style="margin:10px 0 0">One-time payment for this Bash. Pay by UPI or card, handled securely by Razorpay. By upgrading you agree to our <a href="terms.html">Terms</a> and <a href="refund.html">Refund policy</a>.</p>
         </div>
       </section>`}
+
+      ${r.items.length ? `<section class="section"><h2 class="h2">Milestones</h2>${milestoneHtml(r, true)}</section>` : ''}
+      </aside>
+
+      <div class="main">
+      ${S.editDetails ? `
+      <section class="section panel" id="details-sec">
+        <form data-form="details" novalidate>
+          ${detailsFields(r)}
+          <div class="btn-row" style="margin-top:20px"><button class="btn sm" type="submit">Save details</button><button class="btn ghost sm" type="button" data-act="toggle-details">Cancel</button></div>
+        </form>
+      </section>` : ''}
 
       <section class="section">
         <div class="section-head">
@@ -1039,7 +1089,9 @@ async function viewManage(slug, tok) {
       <section class="danger-zone">
         <button class="link danger" data-act="delete-bash">Delete this Bash</button>
         <p class="muted small" style="margin:4px 0 0">Removes the page, gifts and all records for good. Guests' links will stop working.</p>
-      </section>`;
+      </section>
+      </div>
+      </div>`;
   }
 
   const markQuizDirty = () => {
@@ -1435,6 +1487,8 @@ async function viewGuest(slug) {
     document.title = r.title + ' · Bash';
     app.innerHTML = `
       ${tok ? `<div class="owner-bar"><span>This is your Bash. This is what guests see.</span><a class="link" href="#/m/${enc(r.slug)}/${enc(tok)}">Back to editing</a></div>` : ''}
+      <div class="layout">
+      <aside class="side">
       <section class="invite">
         <span class="emo-big" aria-hidden="true">${occ(r.occasion).emoji}</span>
         <h1>${esc(r.title)}</h1>
@@ -1444,8 +1498,12 @@ async function viewGuest(slug) {
       </section>
       <section class="section" id="mile-sec"></section>
       <section class="section" id="quiz-sec"></section>
-      <section class="section" id="gifts-sec"></section>
-      <section class="section" id="fund-sec"></section>
+      </aside>
+      <div class="main">
+        <section class="section" id="gifts-sec"></section>
+        <section class="section" id="fund-sec"></section>
+      </div>
+      </div>
       <div class="cta-own"><p>Got your own occasion coming up?</p><a class="btn ghost" href="#/new">Start your own Bash</a></div>`;
     renderGifts(); renderFund(); renderMilestones(); renderQuiz();
     if (tierOf(r) === 100 && !store.get('bash_seen100:' + slug, false)) { store.set('bash_seen100:' + slug, true); setTimeout(confetti, 400); }
@@ -1563,7 +1621,7 @@ async function viewGuest(slug) {
 function viewMessage(title, text, href, label) {
   document.title = title;
   app.innerHTML = `
-    <div class="page-head" style="padding-top:60px">
+    <div class="page-head narrow" style="padding-top:60px">
       <h1>${esc(title)}</h1>
       <p class="muted" style="margin-top:10px;max-width:44ch">${esc(text)}</p>
       <div class="btn-row" style="margin-top:20px">
