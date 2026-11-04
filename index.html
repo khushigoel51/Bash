@@ -3,11 +3,79 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bash — gift registries and shagun funds</title>
-<meta name="description" content="Set up a wishlist or a shagun fund, share one link, and let your people jump in. No sign-in required.">
+<title>Bash: gift registry and shagun fund for weddings and birthdays</title>
+<meta name="description" content="Free gift registry and shagun fund for weddings, birthdays and baby showers. Share one WhatsApp link; guests reserve gifts or pay shagun by UPI.">
+<link rel="canonical" href="https://bashit.in/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bash">
+<meta property="og:locale" content="en_IN">
+<meta property="og:url" content="https://bashit.in/">
 <meta property="og:title" content="Bash — gifting with the volume turned up">
-<meta property="og:description" content="Pick a gift or send shagun in seconds. No sign-in required.">
+<meta property="og:description" content="Gift lists and shagun funds for weddings, birthdays and every bash. One link, no sign-in.">
+<meta property="og:image" content="https://bashit.in/og-image.jpg">
+<meta property="og:image:secure_url" content="https://bashit.in/og-image.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A Bash wedding gift list with gifts marked taken, reserved and chipped in">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bash — gifting with the volume turned up">
+<meta name="twitter:description" content="Gift lists and shagun funds for weddings, birthdays and every bash. One link, no sign-in.">
+<meta name="twitter:image" content="https://bashit.in/og-image.jpg">
 <meta name="theme-color" content="#E6007A">
+<script>
+/* Links like bashit.in/#/r/... open a Bash, not the homepage: hide the
+   static homepage copy straight away so it doesn't flash before the app loads. */
+(function () { var h = location.hash.replace(/^#\/?/, ''); if (h) document.documentElement.className += ' routed'; })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://bashit.in/#org",
+      "name": "Bash",
+      "url": "https://bashit.in/",
+      "email": "hello@bashit.in",
+      "logo": "https://bashit.in/og-image.jpg"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://bashit.in/#website",
+      "name": "Bash",
+      "alternateName": "bashit.in",
+      "url": "https://bashit.in/",
+      "publisher": { "@id": "https://bashit.in/#org" },
+      "inLanguage": "en-IN"
+    },
+    {
+      "@type": "WebApplication",
+      "name": "Bash",
+      "url": "https://bashit.in/",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Any (works in the browser)",
+      "description": "Gift registry and shagun fund for weddings, birthdays, baby showers, housewarmings and anniversaries. Guests reserve gifts or send shagun by UPI without signing in.",
+      "offers": [
+        { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "INR" },
+        { "@type": "Offer", "name": "Bash Plus", "price": "149", "priceCurrency": "INR", "description": "One-time per Bash: gift photos, chip-in gifts and email alerts." }
+      ],
+      "publisher": { "@id": "https://bashit.in/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is a shagun fund?", "acceptedAnswer": { "@type": "Answer", "text": "It is a cash gift option on your Bash. Guests pick an amount, like ₹501 or ₹1,100, add their blessings, and pay you by UPI. On a phone it opens their UPI app; on a laptop they scan a QR code." } },
+        { "@type": "Question", "name": "Do guests need to sign up or download an app?", "acceptedAnswer": { "@type": "Answer", "text": "No. Guests open your link, reserve a gift or send shagun, and they're done. There is no account and nothing to install." } },
+        { "@type": "Question", "name": "Does Bash take a cut of my gifts or shagun?", "acceptedAnswer": { "@type": "Answer", "text": "No. Shagun goes from the guest's UPI app straight to your UPI ID. It never passes through Bash, and Bash charges nothing on it." } },
+        { "@type": "Question", "name": "How does Bash stop two people buying the same gift?", "acceptedAnswer": { "@type": "Answer", "text": "When a guest reserves a gift, it shows as taken for everyone else, so nobody doubles up. Guests then buy it from wherever you linked it." } },
+        { "@type": "Question", "name": "Can a few guests club together on a bigger gift?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, with Bash Plus. Mark a gift as chip-in and guests each send part of the price by UPI while a progress bar fills up." } },
+        { "@type": "Question", "name": "Is Bash free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Gift lists, reservations, shagun by UPI and WhatsApp sharing are free. Bash Plus is ₹149 one-time per Bash and adds gift photos, chip-in gifts and email alerts. Guests never pay Bash anything." } }
+      ]
+    }
+  ]
+}
+</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -317,6 +385,22 @@ footer a{color:var(--muted)}
   #recover,.mine{max-width:720px}
 }
 @media (min-width:1200px){.layout{gap:72px}}
+/* static homepage copy: readable before (and without) JavaScript */
+html.routed #home-static{display:none}
+html:not(.routed) #app>.loading{display:none}
+.occasions{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+.occasions li{display:flex;gap:12px;align-items:flex-start;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:18px}
+.occasions .emo{font-size:1.6rem;line-height:1;flex:none}
+.occasions h3{font-size:1.05rem;font-weight:700;margin:0 0 2px}
+.occasions p{margin:0;color:var(--muted);font-size:.92rem}
+.faq{max-width:720px;margin-top:14px;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 2px;font-family:var(--display);font-weight:700;font-size:1.05rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:1.4rem;line-height:1;color:var(--fuchsia);flex:none;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq summary:focus-visible{outline:2px solid var(--fuchsia);outline-offset:2px;border-radius:6px}
+.faq details p{margin:0 0 16px;color:var(--muted);max-width:62ch}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 <script type="text/javascript">
@@ -330,7 +414,78 @@ footer a{color:var(--muted)}
 <body>
 <div class="blob b1"></div><div class="blob b2"></div>
 <header class="top"><a class="brand" href="#/">Bash<span>.</span></a><nav id="nav"></nav></header>
-<main class="wrap" id="app"><div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></main>
+<main class="wrap" id="app"><div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+<!-- The homepage lives here as plain HTML so Google, WhatsApp and other link
+     previews can read it. The app reuses this markup for the home view, so
+     edit the homepage here, not in viewHome(). -->
+<div id="home-static">
+    <section class="hero hero-grid">
+      <div>
+        <h1 class="display">Registries<br>with the volume<br><em>turned up.</em></h1>
+        <p class="lede">Set up a wishlist or a shagun fund, share one link, and let your people jump in — reserving a gift or sending cash takes seconds, no sign-in required.</p>
+        <a class="btn" href="#/new">Start a Bash</a>
+      </div>
+      <div class="preview" role="img" aria-label="Example of a Bash gift list">
+        <div class="preview-card">
+          <span class="emo" aria-hidden="true">💍</span>
+          <div class="preview-title">Riya &amp; Kabir’s Wedding</div>
+          <p class="muted small" style="margin:2px 0 14px">Hosted by Riya · in 23 days</p>
+          <div class="mini-meter" style="max-width:none;margin:0"><div style="width:66%"></div></div>
+          <p class="small" style="margin:6px 0 14px"><strong>4 of 6 gifts sorted</strong> · Halfway there ✓</p>
+          <div class="preview-row taken"><span>Le Creuset Dutch oven</span><span class="tag">Taken</span></div>
+          <div class="preview-row"><span>Espresso machine<br><small class="muted">₹24,000</small></span><span class="btn sm">I’ll get this</span></div>
+          <div class="preview-row"><span>Weekend in Coorg<br><small class="muted">₹9,000 of ₹15,000 chipped in</small></span><span class="btn sm ghost">Chip in</span></div>
+          <div class="preview-quiz">🎯 How well do you know Riya? <strong>14 played</strong></div>
+        </div>
+      </div>
+    </section>
+    <div id="mine-slot"></div>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><div><strong>Start a Bash</strong><p>Pick an occasion, add gifts or a cash goal, get one shareable link.</p></div></div>
+      <div class="step"><div class="n">02</div><div><strong>Send the link</strong><p>Guests open it straight away — no account, no app to download.</p></div></div>
+      <div class="step"><div class="n">03</div><div><strong>Watch it fill up</strong><p>Gifts get claimed, funds get topped up, nothing gets duplicated.</p></div></div>
+    </div>
+    <section class="section">
+      <h2 class="h2">One link for every occasion</h2>
+      <ul class="occasions">
+        <li><span class="emo" aria-hidden="true">💍</span><div><h3>Wedding gift registry</h3><p>List what you actually need for the new home, add a shagun fund for relatives who prefer cash, and send it with the invite.</p></div></li>
+        <li><span class="emo" aria-hidden="true">🎂</span><div><h3>Birthday wishlist</h3><p>Stop getting three of the same thing. Friends reserve a gift and it’s off the list for everyone else.</p></div></li>
+        <li><span class="emo" aria-hidden="true">🍼</span><div><h3>Baby shower registry</h3><p>Prams, cots and the hundred small things, split across family so nothing gets bought twice.</p></div></li>
+        <li><span class="emo" aria-hidden="true">🏡</span><div><h3>Housewarming gift list</h3><p>Point guests to the mixer or the bedsheets you’ve been eyeing instead of another showpiece.</p></div></li>
+        <li><span class="emo" aria-hidden="true">🥂</span><div><h3>Anniversary</h3><p>Let everyone chip in together on one big gift, like a trip, with a progress bar that fills up as they pay.</p></div></li>
+        <li><span class="emo" aria-hidden="true">🪔</span><div><h3>Shagun for any occasion</h3><p>Guests pick ₹501, ₹1,100 or any amount, add their blessings, and pay straight to your UPI.</p></div></li>
+      </ul>
+    </section>
+    <section class="section">
+      <h2 class="h2">Free to start. ₹149 if you want extras.</h2>
+      <div class="price-grid">
+        <div class="panel">
+          <strong class="plan-name">Free</strong>
+          <p class="muted small" style="margin:6px 0 0">Gift list, no-doubles reservations, shagun straight to your UPI, WhatsApp sharing.</p>
+        </div>
+        <div class="panel plus-card">
+          <strong class="plan-name">Bash Plus · ₹149</strong>
+          <p class="muted small" style="margin:6px 0 0">One-time per Bash. Adds gift photos, chip-in gifts and email alerts.</p>
+        </div>
+      </div>
+      <p class="small" style="margin-top:12px"><a href="pricing.html">See full pricing</a>. Bash never takes a cut of gifts or shagun.</p>
+    </section>
+    <section class="section">
+      <h2 class="h2">Questions people ask</h2>
+      <div class="faq">
+        <details><summary>What is a shagun fund?</summary><p>It’s a cash gift option on your Bash. Guests pick an amount, like ₹501 or ₹1,100, add their blessings, and pay you by UPI. On a phone it opens their UPI app; on a laptop they scan a QR code.</p></details>
+        <details><summary>Do guests need to sign up or download an app?</summary><p>No. Guests open your link, reserve a gift or send shagun, and they’re done. There’s no account and nothing to install.</p></details>
+        <details><summary>Does Bash take a cut of my gifts or shagun?</summary><p>No. Shagun goes from the guest’s UPI app straight to your UPI ID. It never passes through Bash, and we charge nothing on it.</p></details>
+        <details><summary>How does Bash stop two people buying the same gift?</summary><p>When a guest reserves a gift, it shows as taken for everyone else, so nobody doubles up. Guests then buy it from wherever you linked it.</p></details>
+        <details><summary>Can a few guests club together on a bigger gift?</summary><p>Yes, with Bash Plus. Mark a gift as chip-in and guests each send part of the price by UPI while a progress bar fills up.</p></details>
+        <details><summary>Is Bash free?</summary><p>Yes. Gift lists, reservations, shagun by UPI and WhatsApp sharing are free. Bash Plus is ₹149 one-time per Bash and adds gift photos, chip-in gifts and email alerts. Guests never pay Bash anything.</p></details>
+      </div>
+    </section>
+    <section class="recover" id="recover">
+      <button class="link" data-act="recover-open">Lost the link to edit your Bash?</button>
+    </section>
+</div>
+</main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <footer>
   <nav class="foot-nav" aria-label="Footer"><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refund.html">Refunds &amp; cancellations</a><a href="contact.html">Contact</a></nav>
@@ -656,31 +811,13 @@ function route() {
 window.addEventListener('hashchange', route);
 
 /* ---------- home ---------- */
+const HOME_HTML = (document.getElementById('home-static') || {}).innerHTML || '';
 function viewHome() {
-  document.title = 'Bash — gift registries and shagun funds';
+  document.title = 'Bash: gift registry and shagun fund for weddings and birthdays';
   const mine = store.get(KEY_MINE, []);
-  app.innerHTML = `
-    <section class="hero hero-grid">
-      <div>
-        <h1 class="display">Registries<br>with the volume<br><em>turned up.</em></h1>
-        <p class="lede">Set up a wishlist or a shagun fund, share one link, and let your people jump in — reserving a gift or sending cash takes seconds, no sign-in required.</p>
-        <a class="btn" href="#/new">Start a Bash</a>
-      </div>
-      <div class="preview" role="img" aria-label="Example of a Bash gift list">
-        <div class="preview-card">
-          <span class="emo" aria-hidden="true">💍</span>
-          <div class="preview-title">Riya &amp; Kabir’s Wedding</div>
-          <p class="muted small" style="margin:2px 0 14px">Hosted by Riya · in 23 days</p>
-          <div class="mini-meter" style="max-width:none;margin:0"><div style="width:66%"></div></div>
-          <p class="small" style="margin:6px 0 14px"><strong>4 of 6 gifts sorted</strong> · Halfway there ✓</p>
-          <div class="preview-row taken"><span>Le Creuset Dutch oven</span><span class="tag">Taken</span></div>
-          <div class="preview-row"><span>Espresso machine<br><small class="muted">₹24,000</small></span><span class="btn sm">I’ll get this</span></div>
-          <div class="preview-row"><span>Weekend in Coorg<br><small class="muted">₹9,000 of ₹15,000 chipped in</small></span><span class="btn sm ghost">Chip in</span></div>
-          <div class="preview-quiz">🎯 How well do you know Riya? <strong>14 played</strong></div>
-        </div>
-      </div>
-    </section>
-    ${mine.length ? `
+  app.innerHTML = HOME_HTML;
+  const slot = document.getElementById('mine-slot');
+  if (slot && mine.length) slot.outerHTML = `
     <section class="section">
       <h2 class="h2">Your Bashes</h2>
       <ul class="mine">
@@ -690,28 +827,6 @@ function viewHome() {
             <a class="btn ghost sm" href="#/m/${enc(m.slug)}/${enc(m.token)}">Manage</a>
           </li>`).join('')}
       </ul>
-    </section>` : ''}
-    <div class="steps">
-      <div class="step"><div class="n">01</div><div><strong>Start a Bash</strong><p>Pick an occasion, add gifts or a cash goal, get one shareable link.</p></div></div>
-      <div class="step"><div class="n">02</div><div><strong>Send the link</strong><p>Guests open it straight away — no account, no app to download.</p></div></div>
-      <div class="step"><div class="n">03</div><div><strong>Watch it fill up</strong><p>Gifts get claimed, funds get topped up, nothing gets duplicated.</p></div></div>
-    </div>
-    <section class="section">
-      <h2 class="h2">Free to start. ${inr(PLUS_PRICE)} if you want extras.</h2>
-      <div class="price-grid">
-        <div class="panel">
-          <strong class="plan-name">Free</strong>
-          <p class="muted small" style="margin:6px 0 0">Gift list, no-doubles reservations, shagun straight to your UPI, WhatsApp sharing.</p>
-        </div>
-        <div class="panel plus-card">
-          <strong class="plan-name">Bash Plus · ${inr(PLUS_PRICE)}</strong>
-          <p class="muted small" style="margin:6px 0 0">One-time per Bash. Adds gift photos, chip-in gifts and email alerts.</p>
-        </div>
-      </div>
-      <p class="small" style="margin-top:12px"><a href="pricing.html">See full pricing</a>. Bash never takes a cut of gifts or shagun.</p>
-    </section>
-    <section class="recover" id="recover">
-      <button class="link" data-act="recover-open">Lost the link to edit your Bash?</button>
     </section>`;
 
   H['recover-open'] = () => {
