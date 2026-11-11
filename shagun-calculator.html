@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shagun calculator: how much shagun to give at a wedding | Bash</title>
+<meta name="description" content="Not sure how much shagun to give? Answer five quick questions and get a sensible amount for a wedding, birthday or housewarming, ending in 1 the way it should.">
+<link rel="canonical" href="https://bashit.in/shagun-calculator.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bash">
+<meta property="og:locale" content="en_IN">
+<meta property="og:url" content="https://bashit.in/shagun-calculator.html">
+<meta property="og:title" content="How much shagun should you give?">
+<meta property="og:description" content="Not sure how much shagun to give? Answer five quick questions and get a sensible amount for a wedding, birthday or housewarming, ending in 1 the way it should.">
+<meta property="og:image" content="https://bashit.in/og-shagun.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bashit.in/og-shagun.jpg">
+<meta name="theme-color" content="#E6007A">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--fuchsia:#E6007A;--tangerine:#FF7A29;--gold:#F2B705;--indigo:#1B1035;--cream:#FFF7F0;--ink:#1B1035;--muted:#6E5F80;--card:#FFFFFF;--line:rgba(27,16,53,.12);--wash:#FFE9F3;
+--grad:linear-gradient(100deg,var(--fuchsia),var(--tangerine));--display:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;--body:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--cream:#150C22;--ink:#F4EDFB;--muted:#B3A5C9;--card:#20152F;--line:rgba(244,237,251,.14);--wash:#3A1530;color-scheme:dark}}
+:root[data-theme="dark"]{--cream:#150C22;--ink:#F4EDFB;--muted:#B3A5C9;--card:#20152F;--line:rgba(244,237,251,.14);--wash:#3A1530;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--fuchsia)}
+header{max-width:720px;margin:0 auto;padding:22px 22px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font-family:var(--display);font-weight:800;font-size:1.4rem;color:var(--ink);text-decoration:none}
+.brand span{color:var(--fuchsia)}
+.cta{display:inline-flex;align-items:center;background:var(--grad);color:#fff;text-decoration:none;font-weight:700;padding:10px 16px;border-radius:10px;font-size:.92rem}
+main{max-width:720px;margin:0 auto;padding:36px 22px 20px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,7vw,2.7rem);line-height:1.08;letter-spacing:-.02em;margin:0 0 8px}
+h2{font-family:var(--display);font-size:1.3rem;margin:34px 0 8px;letter-spacing:-.01em}
+h3{font-family:var(--display);font-size:1.08rem;margin:22px 0 4px}
+p,li{margin:0 0 12px}
+ul{padding-left:22px}
+.updated{color:var(--muted);font-size:.92rem;margin-bottom:26px}
+.note{background:var(--wash);border-radius:14px;padding:16px 18px;margin:20px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+@media (max-width:600px){.grid{grid-template-columns:1fr}}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.plan.plus{border:2px solid var(--fuchsia)}
+.plan h2{margin:0}
+.price{font-family:var(--display);font-weight:800;font-size:2.2rem;margin:6px 0 2px}
+.price small{font-family:var(--body);font-size:.9rem;font-weight:500;color:var(--muted)}
+.plan ul{margin:14px 0 0;padding-left:20px}
+.plan li{margin:0 0 6px}
+.pill{display:inline-block;font-size:.78rem;font-weight:700;padding:4px 11px;border-radius:99px;background:var(--gold);color:var(--indigo)}
+footer{max-width:720px;margin:30px auto 0;padding:24px 22px 46px;border-top:1px dashed var(--line);color:var(--muted);font-size:.88rem}
+footer nav{display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:10px}
+footer nav a{color:var(--muted);font-weight:600;text-decoration:none}
+footer nav a:hover{color:var(--ink);text-decoration:underline}
+:focus-visible{outline:2.5px solid var(--fuchsia);outline-offset:2px;border-radius:6px}
+
+main{max-width:760px}
+header,footer{max-width:760px}
+.lede{font-size:1.1rem;color:var(--muted);max-width:60ch;margin:0 0 22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--grad);color:#fff;text-decoration:none;font-weight:700;padding:14px 22px;border-radius:12px;font-size:1rem;min-height:48px;border:none;cursor:pointer;font-family:inherit}
+.btn.ghost{background:transparent;color:var(--fuchsia);border:2px solid var(--fuchsia)}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px;margin:30px 0 6px}
+.why div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.why h3{margin:0 0 4px}
+.why p{margin:0;color:var(--muted);font-size:.94rem}
+.band{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:6px 20px 8px;margin:12px 0}
+.band h3{margin:14px 0 6px;font-size:1rem;color:var(--fuchsia)}
+.band ul{list-style:none;padding:0;margin:0}
+.band li{display:flex;flex-direction:column;padding:10px 0;border-top:1px dashed var(--line);margin:0}
+.band li strong{font-weight:600}
+.band li span{color:var(--muted);font-size:.92rem}
+.tips li{margin-bottom:10px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq{border-top:1px solid var(--line);margin-top:10px}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:15px 2px;font-family:var(--display);font-weight:700;font-size:1.04rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--fuchsia);font-size:1.4rem;line-height:1;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--muted);margin:0 0 16px}
+.end-cta{background:var(--wash);border-radius:20px;padding:22px 22px;margin:34px 0 10px}
+.end-cta h2{margin:0 0 6px}
+.end-cta p{margin:0 0 14px;color:var(--muted)}
+.more{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;padding:0;list-style:none}
+.more li{margin:0}
+.more a{display:inline-block;padding:8px 14px;border-radius:99px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600;font-size:.9rem}
+.more a:hover{border-color:var(--fuchsia)}
+footer nav + nav{margin-top:-2px}
+/* calculator */
+.calc{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px 20px 8px;margin:6px 0 0}
+.calc fieldset{border:0;padding:0;margin:0 0 16px}
+.calc legend{font-weight:700;margin-bottom:8px;font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-block;padding:9px 14px;border-radius:99px;border:1.5px solid var(--line);font-weight:600;font-size:.92rem;cursor:pointer;background:var(--cream);transition:border-color .15s,background .15s}
+.chip input:checked + span{border-color:var(--fuchsia);background:var(--fuchsia);color:#fff}
+.chip input:focus-visible + span{outline:2.5px solid var(--fuchsia);outline-offset:2px}
+.result{position:sticky;bottom:10px;z-index:2;margin:16px 0 0;background:var(--indigo);color:#fff;border-radius:18px;padding:14px 18px;box-shadow:0 12px 30px -12px rgba(230,0,122,.5);display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap}
+.result .lbl{font-size:.85rem;opacity:.8;margin:0}
+.result .amt{font-family:var(--display);font-weight:800;font-size:clamp(2rem,8vw,3rem);line-height:1.05;margin:2px 0 2px;background:linear-gradient(100deg,#FF7AB8,#FFB067);-webkit-background-clip:text;background-clip:text;color:transparent}
+.result .rng{margin:0;font-size:.88rem;opacity:.85}
+.result .btn.ghost{color:#fff;border-color:rgba(255,255,255,.5);padding:8px 14px;min-height:40px;font-size:.9rem}
+table{width:100%;border-collapse:collapse;font-size:.92rem;background:var(--card);border-radius:14px;overflow:hidden}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-weight:700;background:var(--wash)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin:12px 0}
+.small{font-size:.88rem;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebPage",
+   "name": "Shagun calculator",
+   "url": "https://bashit.in/shagun-calculator.html",
+   "isPartOf": {
+    "@id": "https://bashit.in/#website"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Bash",
+     "item": "https://bashit.in/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Shagun calculator",
+     "item": "https://bashit.in/shagun-calculator.html"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Why does shagun end in 1, like ₹501 or ₹1,100?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "In many Indian families an amount ending in zero is seen as an ending, while the extra one stands for a new beginning and blessings that keep growing. So ₹500 becomes ₹501, and ₹1,000 is usually rounded up to ₹1,100 or given as ₹1,001."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How much shagun should I give at a wedding?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "It depends on how close you are, how many of you are attending and how grand the function is. As a rough guide for a banquet wedding in a big city, colleagues often give around ₹1,100, friends ₹2,100 to ₹3,100, and close family ₹5,100 or more. Use the calculator above for your situation."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Should I give shagun if I’m already giving a gift?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Not necessarily. A gift on its own is fine. Some families add a small shagun, like ₹101 or ₹501, as a token of blessing alongside the gift."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can I give shagun online by UPI?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes, and it’s increasingly common. If the hosts made a Bash with a shagun fund, you can pick an amount, add your blessings and pay from your UPI app in seconds."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is this calculator an exact rule?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. It’s a starting point based on common practice. Your budget, your family’s customs and what the hosts mean to you matter more than any number."
+     }
+    }
+   ]
+  },
+  {
+   "@type": "WebApplication",
+   "name": "Shagun calculator",
+   "url": "https://bashit.in/shagun-calculator.html",
+   "applicationCategory": "LifestyleApplication",
+   "operatingSystem": "Any",
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+   },
+   "description": "Work out how much shagun to give at a wedding, birthday, housewarming or other function."
+  }
+ ]
+}
+</script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z5tagf014s");
+</script>
+</head>
+<body>
+<header><a class="brand" href="index.html">Bash<span>.</span></a><a class="cta" href="index.html#/new">Start a Bash</a></header>
+<main>
+
+<h1>How much shagun should you give?</h1>
+<p class="lede">Answer five quick questions and get a sensible amount for a wedding, birthday, housewarming or any other function. It always ends in 1, the way it should.</p>
+<form class="calc" id="calc" onsubmit="return false" aria-describedby="calc-note">
+  <fieldset><legend>What’s the occasion?</legend><div class="chips"><label class="chip"><input type="radio" name="occ" value="wedding" checked><span>Wedding</span></label><label class="chip"><input type="radio" name="occ" value="engagement"><span>Engagement or roka</span></label><label class="chip"><input type="radio" name="occ" value="baby"><span>Baby shower or naming</span></label><label class="chip"><input type="radio" name="occ" value="housewarming"><span>Housewarming</span></label><label class="chip"><input type="radio" name="occ" value="anniversary"><span>Anniversary</span></label><label class="chip"><input type="radio" name="occ" value="birthday"><span>Birthday</span></label></div></fieldset>
+  <fieldset><legend>How do you know them?</legend><div class="chips"><label class="chip"><input type="radio" name="rel" value="immediate"><span>Immediate family</span></label><label class="chip"><input type="radio" name="rel" value="close_rel"><span>Close relative</span></label><label class="chip"><input type="radio" name="rel" value="relative"><span>Distant relative</span></label><label class="chip"><input type="radio" name="rel" value="close_friend"><span>Close friend</span></label><label class="chip"><input type="radio" name="rel" value="friend" checked><span>Friend</span></label><label class="chip"><input type="radio" name="rel" value="colleague"><span>Colleague</span></label><label class="chip"><input type="radio" name="rel" value="acquaint"><span>Neighbour or acquaintance</span></label></div></fieldset>
+  <fieldset><legend>Who’s going?</legend><div class="chips"><label class="chip"><input type="radio" name="who" value="alone" checked><span>Just me</span></label><label class="chip"><input type="radio" name="who" value="couple"><span>Couple</span></label><label class="chip"><input type="radio" name="who" value="family"><span>Family of 3–4</span></label></div></fieldset>
+  <fieldset><legend>What kind of function?</legend><div class="chips"><label class="chip"><input type="radio" name="venue" value="home"><span>At home, simple</span></label><label class="chip"><input type="radio" name="venue" value="banquet" checked><span>Banquet or hotel</span></label><label class="chip"><input type="radio" name="venue" value="lavish"><span>Lavish or destination</span></label></div></fieldset>
+  <fieldset><legend>Where?</legend><div class="chips"><label class="chip"><input type="radio" name="city" value="metro" checked><span>Metro city</span></label><label class="chip"><input type="radio" name="city" value="smaller"><span>Smaller city or town</span></label></div></fieldset>
+</form>
+<div class="result" role="status" aria-live="polite">
+  <div>
+    <p class="lbl">Suggested shagun</p>
+    <p class="amt" id="amt">₹2,100</p>
+    <p class="rng" id="rng">₹1,100 to ₹3,100 also works</p>
+  </div>
+  <a class="btn ghost" id="wa" href="https://wa.me/?text=" target="_blank" rel="noopener">Share on WhatsApp</a>
+</div>
+<p class="small" id="calc-note" style="margin-top:12px">A starting point based on common practice, not a rule. Your budget and your family’s customs come first.</p>
+
+<section class="end-cta">
+  <h2>Hosting something?</h2>
+  <p>Make a Bash with a shagun fund. Guests pick an amount, add their blessings and pay straight to your UPI. Bash never takes a cut.</p>
+  <a class="btn" href="index.html#/new">Start a Bash with shagun</a>
+</section>
+
+<h2>Common shagun amounts at a glance</h2>
+<p>For a banquet or hotel function in a metro city. Smaller towns and simpler functions usually sit a step lower.</p>
+<div class="tbl"><table>
+<thead><tr><th>You are a…</th><th>Wedding, alone</th><th>Wedding, couple</th><th>Birthday, alone</th><th>Birthday, couple</th></tr></thead>
+<tbody><tr><td>Immediate family</td><td>₹11,000</td><td>₹21,000</td><td>₹3,100</td><td>₹5,100</td></tr><tr><td>Close relative</td><td>₹5,100</td><td>₹7,100</td><td>₹2,100</td><td>₹2,100</td></tr><tr><td>Distant relative</td><td>₹2,100</td><td>₹3,100</td><td>₹501</td><td>₹1,100</td></tr><tr><td>Close friend</td><td>₹5,100</td><td>₹7,100</td><td>₹2,100</td><td>₹2,100</td></tr><tr><td>Friend</td><td>₹2,100</td><td>₹3,100</td><td>₹501</td><td>₹1,100</td></tr><tr><td>Colleague</td><td>₹1,100</td><td>₹2,100</td><td>₹251</td><td>₹501</td></tr><tr><td>Neighbour or acquaintance</td><td>₹501</td><td>₹1,100</td><td>₹101</td><td>₹251</td></tr></tbody></table></div>
+
+<h2>The shagun ladder</h2>
+<p>Shagun amounts tend to move in familiar steps: ₹101, ₹251, ₹501, ₹1,100, ₹2,100, ₹3,100, ₹5,100, ₹7,100, ₹11,000, ₹21,000, ₹31,000, ₹51,000. Pick the step that matches how close you are, then move up one if you’re going as a family or the function is lavish.</p>
+
+<h2>Questions</h2>
+<div class="faq"><details><summary>Why does shagun end in 1, like ₹501 or ₹1,100?</summary><p>In many Indian families an amount ending in zero is seen as an ending, while the extra one stands for a new beginning and blessings that keep growing. So ₹500 becomes ₹501, and ₹1,000 is usually rounded up to ₹1,100 or given as ₹1,001.</p></details><details><summary>How much shagun should I give at a wedding?</summary><p>It depends on how close you are, how many of you are attending and how grand the function is. As a rough guide for a banquet wedding in a big city, colleagues often give around ₹1,100, friends ₹2,100 to ₹3,100, and close family ₹5,100 or more. Use the calculator above for your situation.</p></details><details><summary>Should I give shagun if I’m already giving a gift?</summary><p>Not necessarily. A gift on its own is fine. Some families add a small shagun, like ₹101 or ₹501, as a token of blessing alongside the gift.</p></details><details><summary>Can I give shagun online by UPI?</summary><p>Yes, and it’s increasingly common. If the hosts made a Bash with a shagun fund, you can pick an amount, add your blessings and pay from your UPI app in seconds.</p></details><details><summary>Is this calculator an exact rule?</summary><p>No. It’s a starting point based on common practice. Your budget, your family’s customs and what the hosts mean to you matter more than any number.</p></details></div>
+<h2>Gift lists for every occasion</h2>
+<ul class="more"><li><a href="wedding-gift-registry.html">💍 Wedding registry</a></li><li><a href="birthday-wishlist.html">🎂 Birthday wishlist</a></li><li><a href="baby-shower-registry.html">🍼 Baby shower registry</a></li><li><a href="housewarming-gift-list.html">🏡 Housewarming gift list</a></li><li><a href="anniversary-gift-ideas.html">🥂 Anniversary gifts</a></li></ul>
+
+</main>
+<footer>
+  <nav aria-label="Footer">
+    <a href="index.html">Home</a><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a><a href="refund.html">Refunds &amp; cancellations</a><a href="contact.html">Contact</a>
+  </nav>
+  <nav aria-label="Guides"><a href="shagun-calculator.html">Shagun calculator</a><a href="wedding-gift-registry.html">Wedding registry</a><a href="birthday-wishlist.html">Birthday wishlist</a><a href="baby-shower-registry.html">Baby shower registry</a><a href="housewarming-gift-list.html">Housewarming gift list</a><a href="anniversary-gift-ideas.html">Anniversary gifts</a></nav>
+  <div>Bash · gifting that’s actually fun to send · <a href="mailto:hello@bashit.in">hello@bashit.in</a></div>
+</footer>
+<script>
+(function () {
+  var D = {"ladder": [101, 251, 501, 1100, 2100, 3100, 5100, 7100, 11000, 21000, 31000, 51000], "rel": {"immediate": 11000, "close_rel": 5100, "relative": 2100, "close_friend": 5100, "friend": 2100, "colleague": 1100, "acquaint": 501}, "occ": {"wedding": 1.0, "engagement": 0.6, "baby": 0.5, "housewarming": 0.4, "anniversary": 0.4, "birthday": 0.3}, "who": {"alone": 1.0, "couple": 1.6, "family": 2.2}, "venue": {"home": 0.7, "banquet": 1.0, "lavish": 1.6}, "city": {"metro": 1.0, "smaller": 0.8}};
+  var f = document.getElementById('calc'), amt = document.getElementById('amt'), rng = document.getElementById('rng'), wa = document.getElementById('wa');
+  function inr(n) { return '₹' + Number(n).toLocaleString('en-IN'); }
+  function val(n) { var c = f.querySelector('input[name="' + n + '"]:checked'); return c ? c.value : null; }
+  function snap(x) { var best = D.ladder[0]; D.ladder.forEach(function (v) { if (Math.abs(Math.log(v) - Math.log(x)) < Math.abs(Math.log(best) - Math.log(x))) best = v; }); return best; }
+  function update() {
+    var raw = D.rel[val('rel')] * D.occ[val('occ')] * D.who[val('who')] * D.venue[val('venue')] * D.city[val('city')];
+    var v = snap(raw), i = D.ladder.indexOf(v);
+    var lo = D.ladder[Math.max(0, i - 1)], hi = D.ladder[Math.min(D.ladder.length - 1, i + 1)];
+    amt.textContent = inr(v);
+    rng.textContent = inr(lo) + ' to ' + inr(hi) + ' also works';
+    wa.href = 'https://wa.me/?text=' + encodeURIComponent('Confused about how much shagun to give? This tells you in 10 seconds: https://bashit.in/shagun-calculator.html');
+  }
+  f.addEventListener('change', update);
+  update();
+})();
+</script>
+</body>
+</html>

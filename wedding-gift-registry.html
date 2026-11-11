@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wedding gift registry for Indian weddings, with a shagun fund | Bash</title>
+<meta name="description" content="Make a free wedding gift registry with a UPI shagun fund. Share one WhatsApp link with the invite; guests reserve gifts so nothing gets doubled.">
+<link rel="canonical" href="https://bashit.in/wedding-gift-registry.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bash">
+<meta property="og:locale" content="en_IN">
+<meta property="og:url" content="https://bashit.in/wedding-gift-registry.html">
+<meta property="og:title" content="Wedding gift registry for Indian weddings, with a shagun fund | Bash">
+<meta property="og:description" content="Make a free wedding gift registry with a UPI shagun fund. Share one WhatsApp link with the invite; guests reserve gifts so nothing gets doubled.">
+<meta property="og:image" content="https://bashit.in/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bashit.in/og-image.jpg">
+<meta name="theme-color" content="#E6007A">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--fuchsia:#E6007A;--tangerine:#FF7A29;--gold:#F2B705;--indigo:#1B1035;--cream:#FFF7F0;--ink:#1B1035;--muted:#6E5F80;--card:#FFFFFF;--line:rgba(27,16,53,.12);--wash:#FFE9F3;
+--grad:linear-gradient(100deg,var(--fuchsia),var(--tangerine));--display:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;--body:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--cream:#150C22;--ink:#F4EDFB;--muted:#B3A5C9;--card:#20152F;--line:rgba(244,237,251,.14);--wash:#3A1530;color-scheme:dark}}
+:root[data-theme="dark"]{--cream:#150C22;--ink:#F4EDFB;--muted:#B3A5C9;--card:#20152F;--line:rgba(244,237,251,.14);--wash:#3A1530;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--fuchsia)}
+header{max-width:720px;margin:0 auto;padding:22px 22px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font-family:var(--display);font-weight:800;font-size:1.4rem;color:var(--ink);text-decoration:none}
+.brand span{color:var(--fuchsia)}
+.cta{display:inline-flex;align-items:center;background:var(--grad);color:#fff;text-decoration:none;font-weight:700;padding:10px 16px;border-radius:10px;font-size:.92rem}
+main{max-width:720px;margin:0 auto;padding:36px 22px 20px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,7vw,2.7rem);line-height:1.08;letter-spacing:-.02em;margin:0 0 8px}
+h2{font-family:var(--display);font-size:1.3rem;margin:34px 0 8px;letter-spacing:-.01em}
+h3{font-family:var(--display);font-size:1.08rem;margin:22px 0 4px}
+p,li{margin:0 0 12px}
+ul{padding-left:22px}
+.updated{color:var(--muted);font-size:.92rem;margin-bottom:26px}
+.note{background:var(--wash);border-radius:14px;padding:16px 18px;margin:20px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+@media (max-width:600px){.grid{grid-template-columns:1fr}}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.plan.plus{border:2px solid var(--fuchsia)}
+.plan h2{margin:0}
+.price{font-family:var(--display);font-weight:800;font-size:2.2rem;margin:6px 0 2px}
+.price small{font-family:var(--body);font-size:.9rem;font-weight:500;color:var(--muted)}
+.plan ul{margin:14px 0 0;padding-left:20px}
+.plan li{margin:0 0 6px}
+.pill{display:inline-block;font-size:.78rem;font-weight:700;padding:4px 11px;border-radius:99px;background:var(--gold);color:var(--indigo)}
+footer{max-width:720px;margin:30px auto 0;padding:24px 22px 46px;border-top:1px dashed var(--line);color:var(--muted);font-size:.88rem}
+footer nav{display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:10px}
+footer nav a{color:var(--muted);font-weight:600;text-decoration:none}
+footer nav a:hover{color:var(--ink);text-decoration:underline}
+:focus-visible{outline:2.5px solid var(--fuchsia);outline-offset:2px;border-radius:6px}
+
+main{max-width:760px}
+header,footer{max-width:760px}
+.lede{font-size:1.1rem;color:var(--muted);max-width:60ch;margin:0 0 22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--grad);color:#fff;text-decoration:none;font-weight:700;padding:14px 22px;border-radius:12px;font-size:1rem;min-height:48px;border:none;cursor:pointer;font-family:inherit}
+.btn.ghost{background:transparent;color:var(--fuchsia);border:2px solid var(--fuchsia)}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px;margin:30px 0 6px}
+.why div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.why h3{margin:0 0 4px}
+.why p{margin:0;color:var(--muted);font-size:.94rem}
+.band{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:6px 20px 8px;margin:12px 0}
+.band h3{margin:14px 0 6px;font-size:1rem;color:var(--fuchsia)}
+.band ul{list-style:none;padding:0;margin:0}
+.band li{display:flex;flex-direction:column;padding:10px 0;border-top:1px dashed var(--line);margin:0}
+.band li strong{font-weight:600}
+.band li span{color:var(--muted);font-size:.92rem}
+.tips li{margin-bottom:10px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq{border-top:1px solid var(--line);margin-top:10px}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:15px 2px;font-family:var(--display);font-weight:700;font-size:1.04rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--fuchsia);font-size:1.4rem;line-height:1;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--muted);margin:0 0 16px}
+.end-cta{background:var(--wash);border-radius:20px;padding:22px 22px;margin:34px 0 10px}
+.end-cta h2{margin:0 0 6px}
+.end-cta p{margin:0 0 14px;color:var(--muted)}
+.more{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;padding:0;list-style:none}
+.more li{margin:0}
+.more a{display:inline-block;padding:8px 14px;border-radius:99px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600;font-size:.9rem}
+.more a:hover{border-color:var(--fuchsia)}
+footer nav + nav{margin-top:-2px}
+/* calculator */
+.calc{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px 20px 8px;margin:6px 0 0}
+.calc fieldset{border:0;padding:0;margin:0 0 16px}
+.calc legend{font-weight:700;margin-bottom:8px;font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-block;padding:9px 14px;border-radius:99px;border:1.5px solid var(--line);font-weight:600;font-size:.92rem;cursor:pointer;background:var(--cream);transition:border-color .15s,background .15s}
+.chip input:checked + span{border-color:var(--fuchsia);background:var(--fuchsia);color:#fff}
+.chip input:focus-visible + span{outline:2.5px solid var(--fuchsia);outline-offset:2px}
+.result{position:sticky;bottom:10px;z-index:2;margin:16px 0 0;background:var(--indigo);color:#fff;border-radius:18px;padding:14px 18px;box-shadow:0 12px 30px -12px rgba(230,0,122,.5);display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap}
+.result .lbl{font-size:.85rem;opacity:.8;margin:0}
+.result .amt{font-family:var(--display);font-weight:800;font-size:clamp(2rem,8vw,3rem);line-height:1.05;margin:2px 0 2px;background:linear-gradient(100deg,#FF7AB8,#FFB067);-webkit-background-clip:text;background-clip:text;color:transparent}
+.result .rng{margin:0;font-size:.88rem;opacity:.85}
+.result .btn.ghost{color:#fff;border-color:rgba(255,255,255,.5);padding:8px 14px;min-height:40px;font-size:.9rem}
+table{width:100%;border-collapse:collapse;font-size:.92rem;background:var(--card);border-radius:14px;overflow:hidden}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-weight:700;background:var(--wash)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin:12px 0}
+.small{font-size:.88rem;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebPage",
+   "name": "A wedding gift registry that works for Indian weddings",
+   "url": "https://bashit.in/wedding-gift-registry.html",
+   "isPartOf": {
+    "@id": "https://bashit.in/#website"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Bash",
+     "item": "https://bashit.in/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "A wedding gift registry that works for Indian weddings",
+     "item": "https://bashit.in/wedding-gift-registry.html"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Is it rude to have a wedding registry in India?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "It’s becoming normal, especially among friends and younger relatives who would rather give something useful. Pairing the list with a shagun option keeps it comfortable for everyone, because guests who prefer tradition can still give cash."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How many gifts should we put on our wedding registry?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Roughly one gift for every three to four guest households, across a spread of prices. You can add more as gifts get reserved."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can guests give shagun online instead of an envelope?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. Turn on the shagun fund and guests pick an amount like ₹1,100 or ₹5,100, add their blessings, and pay straight to your UPI ID. Bash never touches the money."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z5tagf014s");
+</script>
+</head>
+<body>
+<header><a class="brand" href="index.html">Bash<span>.</span></a><a class="cta" href="index.html#/new">Start a Bash</a></header>
+<main>
+
+<h1>A wedding gift registry that works for Indian weddings</h1>
+<p class="lede">Most couples end up with four pressure cookers and a stack of envelopes. Put the gifts you actually need on one list, add a shagun fund for everyone who prefers cash, and send it with the invite.</p>
+<div class="btn-row"><a class="btn" href="index.html#/new/wedding">Start a wedding registry</a><span class="small">Free · takes a minute · guests don’t sign up</span></div>
+<div class="why"><div><h3>Gifts and shagun in one link</h3><p>Friends can pick the air fryer; your mama ji can send ₹5,100 by UPI. Both land on the same page, and you see who gave what.</p></div><div><h3>No doubles, no awkward returns</h3><p>When someone reserves a gift it’s marked taken for everyone else. Nobody has to coordinate in the family group.</p></div><div><h3>Nothing to install</h3><p>Guests open the link and go. No account, no app, which matters when half your guest list is over 60.</p></div></div>
+<h2>Gift ideas to start from</h2>
+<p>Pick the ones that fit. When you start your list, these show up as one-tap suggestions, and you can edit or remove anything.</p>
+<section class="band"><h3>Under ₹3,000</h3><ul><li><strong>King-size bedsheet set</strong><span>Ask for a specific colour or thread count in the note.</span></li><li><strong>Cast-iron kadai</strong><span>Lasts decades and gets used every week.</span></li><li><strong>Bath towel set</strong><span>An easy pick for colleagues and distant relatives.</span></li><li><strong>Glass storage containers</strong><span>The kitchen upgrade nobody buys for themselves.</span></li></ul></section><section class="band"><h3>₹3,000 to ₹10,000</h3><ul><li><strong>Air fryer</strong><span>A crowd-pleaser that gets used every day.</span></li><li><strong>Mixer grinder</strong><span>Name the brand you trust so you don’t get a dud.</span></li><li><strong>Dinner set for 6</strong><span>Link the exact pattern so pieces match.</span></li><li><strong>Non-stick cookware set</strong><span>Good for close friends to pick together.</span></li></ul></section><section class="band"><h3>Bigger gifts to chip in on (Bash Plus)</h3><ul><li><strong>Honeymoon fund</strong><span>Guests chip in toward flights or a hotel night.</span></li><li><strong>Espresso machine</strong><span>Works well as a group gift from a friends’ circle.</span></li><li><strong>Robot vacuum</strong><span>Practical, and nobody will buy it alone.</span></li><li><strong>Microwave oven</strong><span>A safe big-ticket gift from a whole side of the family.</span></li></ul></section>
+<h2>How to share your registry without it feeling awkward</h2>
+<ul class="tips"><li>Send the link a day or two after the invite, not inside it. A short line works: “A few of you asked what we need, so we made a list.”</li><li>Let parents and siblings forward it. It reads as helpful when it comes from family rather than the couple.</li><li>Keep a range of prices. If everything costs ₹20,000, people quietly skip the list and give an envelope anyway.</li><li>Turn on the shagun fund. Many guests will give cash no matter what; this way it reaches your UPI with their blessings attached instead of getting lost in envelopes.</li></ul>
+<h2>Questions</h2>
+<div class="faq"><details><summary>Is it rude to have a wedding registry in India?</summary><p>It’s becoming normal, especially among friends and younger relatives who would rather give something useful. Pairing the list with a shagun option keeps it comfortable for everyone, because guests who prefer tradition can still give cash.</p></details><details><summary>How many gifts should we put on our wedding registry?</summary><p>Roughly one gift for every three to four guest households, across a spread of prices. You can add more as gifts get reserved.</p></details><details><summary>Can guests give shagun online instead of an envelope?</summary><p>Yes. Turn on the shagun fund and guests pick an amount like ₹1,100 or ₹5,100, add their blessings, and pay straight to your UPI ID. Bash never touches the money.</p></details></div>
+<section class="end-cta">
+  <h2>Ready when you are</h2>
+  <p>Make the list, share one link on WhatsApp, and let your people take it from there.</p>
+  <a class="btn" href="index.html#/new/wedding">Start a wedding registry</a>
+</section>
+<h2>More from Bash</h2>
+<ul class="more"><li><a href="shagun-calculator.html">🪔 Shagun calculator</a></li><li><a href="birthday-wishlist.html">🎂 Birthday wishlist</a></li><li><a href="baby-shower-registry.html">🍼 Baby shower registry</a></li><li><a href="housewarming-gift-list.html">🏡 Housewarming gift list</a></li><li><a href="anniversary-gift-ideas.html">🥂 Anniversary gifts</a></li></ul>
+
+</main>
+<footer>
+  <nav aria-label="Footer">
+    <a href="index.html">Home</a><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a><a href="refund.html">Refunds &amp; cancellations</a><a href="contact.html">Contact</a>
+  </nav>
+  <nav aria-label="Guides"><a href="shagun-calculator.html">Shagun calculator</a><a href="wedding-gift-registry.html">Wedding registry</a><a href="birthday-wishlist.html">Birthday wishlist</a><a href="baby-shower-registry.html">Baby shower registry</a><a href="housewarming-gift-list.html">Housewarming gift list</a><a href="anniversary-gift-ideas.html">Anniversary gifts</a></nav>
+  <div>Bash · gifting that’s actually fun to send · <a href="mailto:hello@bashit.in">hello@bashit.in</a></div>
+</footer>
+
+</body>
+</html>

@@ -401,6 +401,14 @@ html:not(.routed) #app>.loading{display:none}
 .faq details[open] summary::after{transform:rotate(45deg)}
 .faq summary:focus-visible{outline:2px solid var(--fuchsia);outline-offset:2px;border-radius:6px}
 .faq details p{margin:0 0 16px;color:var(--muted);max-width:62ch}
+.occasions h3 a{color:inherit;text-decoration:none}
+.occasions h3 a:hover{color:var(--fuchsia);text-decoration:underline}
+.ideas{margin-top:14px;padding:16px 18px;border:1.5px dashed var(--line);border-radius:16px}
+.idea-list{display:flex;flex-wrap:wrap;gap:8px}
+.idea{font:inherit;font-size:.9rem;font-weight:600;padding:8px 13px;border-radius:99px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;min-height:40px}
+.idea:hover{border-color:var(--fuchsia);color:var(--fuchsia)}
+.idea:disabled{opacity:.5;cursor:default}
+.idea:focus-visible{outline:2px solid var(--fuchsia);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 <script type="text/javascript">
@@ -448,12 +456,12 @@ html:not(.routed) #app>.loading{display:none}
     <section class="section">
       <h2 class="h2">One link for every occasion</h2>
       <ul class="occasions">
-        <li><span class="emo" aria-hidden="true">💍</span><div><h3>Wedding gift registry</h3><p>List what you actually need for the new home, add a shagun fund for relatives who prefer cash, and send it with the invite.</p></div></li>
-        <li><span class="emo" aria-hidden="true">🎂</span><div><h3>Birthday wishlist</h3><p>Stop getting three of the same thing. Friends reserve a gift and it’s off the list for everyone else.</p></div></li>
-        <li><span class="emo" aria-hidden="true">🍼</span><div><h3>Baby shower registry</h3><p>Prams, cots and the hundred small things, split across family so nothing gets bought twice.</p></div></li>
-        <li><span class="emo" aria-hidden="true">🏡</span><div><h3>Housewarming gift list</h3><p>Point guests to the mixer or the bedsheets you’ve been eyeing instead of another showpiece.</p></div></li>
-        <li><span class="emo" aria-hidden="true">🥂</span><div><h3>Anniversary</h3><p>Let everyone chip in together on one big gift, like a trip, with a progress bar that fills up as they pay.</p></div></li>
-        <li><span class="emo" aria-hidden="true">🪔</span><div><h3>Shagun for any occasion</h3><p>Guests pick ₹501, ₹1,100 or any amount, add their blessings, and pay straight to your UPI.</p></div></li>
+        <li><span class="emo" aria-hidden="true">💍</span><div><h3><a href="wedding-gift-registry.html">Wedding gift registry</a></h3><p>List what you actually need for the new home, add a shagun fund for relatives who prefer cash, and send it with the invite.</p></div></li>
+        <li><span class="emo" aria-hidden="true">🎂</span><div><h3><a href="birthday-wishlist.html">Birthday wishlist</a></h3><p>Stop getting three of the same thing. Friends reserve a gift and it’s off the list for everyone else.</p></div></li>
+        <li><span class="emo" aria-hidden="true">🍼</span><div><h3><a href="baby-shower-registry.html">Baby shower registry</a></h3><p>Prams, cots and the hundred small things, split across family so nothing gets bought twice.</p></div></li>
+        <li><span class="emo" aria-hidden="true">🏡</span><div><h3><a href="housewarming-gift-list.html">Housewarming gift list</a></h3><p>Point guests to the mixer or the bedsheets you’ve been eyeing instead of another showpiece.</p></div></li>
+        <li><span class="emo" aria-hidden="true">🥂</span><div><h3><a href="anniversary-gift-ideas.html">Anniversary</a></h3><p>Let everyone chip in together on one big gift, like a trip, with a progress bar that fills up as they pay.</p></div></li>
+        <li><span class="emo" aria-hidden="true">🪔</span><div><h3><a href="shagun-calculator.html">Shagun for any occasion</a></h3><p>Guests pick ₹501, ₹1,100 or any amount, add their blessings, and pay straight to your UPI. Not sure what to give? Try the <a href="shagun-calculator.html">shagun calculator</a>.</p></div></li>
       </ul>
     </section>
     <section class="section">
@@ -489,6 +497,7 @@ html:not(.routed) #app>.loading{display:none}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <footer>
   <nav class="foot-nav" aria-label="Footer"><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refund.html">Refunds &amp; cancellations</a><a href="contact.html">Contact</a></nav>
+  <nav class="foot-nav" aria-label="Guides"><a href="shagun-calculator.html">Shagun calculator</a><a href="wedding-gift-registry.html">Wedding registry</a><a href="birthday-wishlist.html">Birthday wishlist</a><a href="baby-shower-registry.html">Baby shower registry</a><a href="housewarming-gift-list.html">Housewarming gift list</a><a href="anniversary-gift-ideas.html">Anniversary gifts</a></nav>
   <div>Bash · gifting that’s actually fun to send · <a href="mailto:hello@bashit.in">hello@bashit.in</a></div>
 </footer>
 
@@ -521,6 +530,8 @@ const OCCASIONS = {
   other: { label: 'Something else', emoji: '🎉' }
 };
 const SHAGUN = [501, 1100, 2100, 5100];
+/* One-tap gift suggestions on a new Bash. Same ideas as the occasion pages (wedding-gift-registry.html etc.), so update both together. */
+const GIFT_IDEAS = {"wedding": ["King-size bedsheet set", "Air fryer", "Honeymoon fund", "Cast-iron kadai", "Mixer grinder", "Espresso machine", "Bath towel set", "Dinner set for 6", "Robot vacuum", "Glass storage containers"], "birthday": ["Book", "Bluetooth speaker", "Kindle Paperwhite", "Indoor plant", "Perfume", "Noise-cancelling headphones", "Specialty coffee beans", "Running shoes", "Smartwatch", "Scented candle"], "baby": ["Muslin swaddles", "Baby carrier", "Pram or stroller", "Baby clothes, 0–6 months", "Diaper bag", "Car seat", "Baby bath set", "Baby monitor", "Cot or crib", "Cloth board books"], "housewarming": ["Indoor plants", "Bedsheet set", "Water purifier", "Doormat and cushion covers", "Floor lamp", "Air purifier", "Spice rack", "Tool kit", "Robot vacuum", "Tea set"], "anniversary": ["Printed photo book", "Couple’s spa day", "Weekend getaway", "Wine glasses or a serving set", "Fancy dinner out", "Pilgrimage or holiday fund", "Personalised name plate", "Matching watches", "Smart TV"]};
 const PLUS_PRICE = 149;
 const UPI_RE = /^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}$/;
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$/;
@@ -803,7 +814,7 @@ function route() {
   if (!BASE || !CONFIG.supabaseKey) return viewMessage('Bash is being set up', 'The database connection is missing. Add it in the settings at the bottom of index.html.');
   const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(p => { try { return decodeURIComponent(p); } catch (e) { return p; } });
   if (!parts.length) return viewHome();
-  if (parts[0] === 'new') return viewCreate();
+  if (parts[0] === 'new') return viewCreate(parts[1]);
   if (parts[0] === 'r' && parts[1]) return viewGuest(parts[1]);
   if (parts[0] === 'm' && parts[1] && parts[2]) return viewManage(parts[1], parts[2]);
   return viewMessage('Page not found', "That link doesn't go anywhere on Bash.");
@@ -960,14 +971,15 @@ function payBlock(key, P, r, o) {
 }
 
 /* ---------- create ---------- */
-function viewCreate() {
+function viewCreate(preset) {
   document.title = 'Start a Bash';
+  const start = OCCASIONS[preset] && preset !== 'other' ? { occasion: preset } : {};
   app.innerHTML = `
     <div class="narrow">
     <a class="back" href="#/">‹ Back</a>
     <div class="page-head"><h1>Start a Bash</h1><p class="muted">Takes a minute. You'll add gifts on the next screen.</p></div>
     <form data-form="create" novalidate style="margin-top:22px">
-      ${detailsFields()}
+      ${detailsFields(start)}
       <div style="margin-top:24px"><button class="btn block" type="submit">Create my Bash</button></div>
     </form>
     </div>`;
@@ -1075,6 +1087,19 @@ async function viewManage(slug, tok) {
           ${it.id ? '<button class="btn ghost sm" type="button" data-act="cancel-edit">Cancel</button>' : ''}
         </div>
       </form>`;
+  }
+
+  function ideasPanel() {
+    const r = S.r, all = GIFT_IDEAS[r.occasion];
+    if (!all || r.items.length >= 10) return '';
+    const have = new Set(r.items.map(i => String(i.name || '').trim().toLowerCase()));
+    const left = all.filter(n => !have.has(n.toLowerCase()));
+    if (!left.length) return '';
+    return `
+      <div class="ideas">
+        <p class="small muted" style="margin:0 0 10px">Need ideas? Tap to add, then use Edit to put in a price or link.</p>
+        <div class="idea-list">${left.map(n => `<button type="button" class="idea" data-act="idea-add" data-name="${esc(n)}">+ ${esc(n)}</button>`).join('')}</div>
+      </div>`;
   }
 
   function giftRow(it) {
@@ -1187,6 +1212,7 @@ async function viewManage(slug, tok) {
           ${claimed ? `<button class="link" data-act="reveal">${S.reveal ? "Hide who's getting what" : "Show who's getting what"}</button>` : ''}
         </div>
         ${r.items.length ? `<ul class="gifts">${r.items.map(giftRow).join('')}</ul>` : ''}
+        ${ideasPanel()}
         <div class="panel" style="margin-top:14px">
           <h3 style="font-size:1.1rem;margin-bottom:12px">Add a gift</h3>
           ${itemForm({})}
@@ -1357,6 +1383,16 @@ async function viewManage(slug, tok) {
     busy(btn, true);
     try { await api.updateRegistry(slug, tok, data); S.editDetails = false; toast('Details saved'); await refresh(); }
     catch (e) { busy(btn, false); showError(form, e.message); }
+  };
+  H['idea-add'] = async el => {
+    if (el.disabled) return;
+    el.disabled = true;
+    try {
+      await api.saveItem(slug, tok, { id: null, name: el.dataset.name, price: null, url: '', note: '', image_url: '', group_gift: false });
+      toast('Gift added');
+      S.fresh = false;
+      await refresh();
+    } catch (e) { el.disabled = false; toast(e.message); }
   };
   H['submit:item'] = async (form, btn) => {
     const f = new FormData(form);
