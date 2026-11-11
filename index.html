@@ -455,6 +455,7 @@ html:not(.routed) #app>.loading{display:none}
     </div>
     <section class="section">
       <h2 class="h2">One link for every occasion</h2>
+      <p class="muted" style="margin:6px 0 0">Not sure what to ask for, or what to give? Try the <a href="gift-finder.html">gift finder</a>: five questions, six ideas.</p>
       <ul class="occasions">
         <li><span class="emo" aria-hidden="true">💍</span><div><h3><a href="wedding-gift-registry.html">Wedding gift registry</a></h3><p>List what you actually need for the new home, add a shagun fund for relatives who prefer cash, and send it with the invite.</p></div></li>
         <li><span class="emo" aria-hidden="true">🎂</span><div><h3><a href="birthday-wishlist.html">Birthday wishlist</a></h3><p>Stop getting three of the same thing. Friends reserve a gift and it’s off the list for everyone else.</p></div></li>
@@ -497,7 +498,7 @@ html:not(.routed) #app>.loading{display:none}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <footer>
   <nav class="foot-nav" aria-label="Footer"><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refund.html">Refunds &amp; cancellations</a><a href="contact.html">Contact</a></nav>
-  <nav class="foot-nav" aria-label="Guides"><a href="shagun-calculator.html">Shagun calculator</a><a href="wedding-gift-registry.html">Wedding registry</a><a href="birthday-wishlist.html">Birthday wishlist</a><a href="baby-shower-registry.html">Baby shower registry</a><a href="housewarming-gift-list.html">Housewarming gift list</a><a href="anniversary-gift-ideas.html">Anniversary gifts</a></nav>
+  <nav class="foot-nav" aria-label="Guides"><a href="gift-finder.html">Gift finder</a><a href="shagun-calculator.html">Shagun calculator</a><a href="wedding-gift-registry.html">Wedding registry</a><a href="birthday-wishlist.html">Birthday wishlist</a><a href="baby-shower-registry.html">Baby shower registry</a><a href="housewarming-gift-list.html">Housewarming gift list</a><a href="anniversary-gift-ideas.html">Anniversary gifts</a></nav>
   <div>Bash · gifting that’s actually fun to send · <a href="mailto:hello@bashit.in">hello@bashit.in</a></div>
 </footer>
 
@@ -536,7 +537,7 @@ const PLUS_PRICE = 149;
 const UPI_RE = /^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}$/;
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$/;
 const IS_MOBILE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-const KEY_MINE = 'bash_mine', KEY_CLAIMS = 'bash_claims', KEY_NAME = 'bash_guest_name';
+const KEY_MINE = 'bash_mine', KEY_CLAIMS = 'bash_claims', KEY_NAME = 'bash_guest_name', KEY_PICKS = 'bash_picks';
 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const enc = encodeURIComponent;
@@ -1090,15 +1091,20 @@ async function viewManage(slug, tok) {
   }
 
   function ideasPanel() {
-    const r = S.r, all = GIFT_IDEAS[r.occasion];
-    if (!all || r.items.length >= 10) return '';
+    const r = S.r;
     const have = new Set(r.items.map(i => String(i.name || '').trim().toLowerCase()));
-    const left = all.filter(n => !have.has(n.toLowerCase()));
-    if (!left.length) return '';
+    const picks = store.get(KEY_PICKS, []).filter(p => p && p.name && !have.has(String(p.name).toLowerCase()));
+    const left = r.items.length >= 10 ? [] : (GIFT_IDEAS[r.occasion] || []).filter(n => !have.has(n.toLowerCase()));
+    if (!picks.length && !left.length) return '';
+    const btn = (n, price) => `<button type="button" class="idea" data-act="idea-add" data-name="${esc(n)}"${price ? ` data-price="${esc(price)}"` : ''}>+ ${esc(n)}</button>`;
     return `
       <div class="ideas">
-        <p class="small muted" style="margin:0 0 10px">Need ideas? Tap to add, then use Edit to put in a price or link.</p>
-        <div class="idea-list">${left.map(n => `<button type="button" class="idea" data-act="idea-add" data-name="${esc(n)}">+ ${esc(n)}</button>`).join('')}</div>
+        ${picks.length ? `
+        <div class="section-head" style="margin-bottom:10px"><p class="small" style="margin:0"><strong>From your gift finder</strong></p><button class="link" data-act="picks-clear">Clear</button></div>
+        <div class="idea-list" style="margin-bottom:${left.length ? '16px' : '0'}">${picks.map(p => btn(p.name, p.price)).join('')}</div>` : ''}
+        ${left.length ? `
+        <p class="small muted" style="margin:0 0 10px">Need ideas? Tap to add, then use Edit to put in a price or link. Or try the <a href="gift-finder.html">gift finder</a>.</p>
+        <div class="idea-list">${left.map(n => btn(n)).join('')}</div>` : ''}
       </div>`;
   }
 
@@ -1388,12 +1394,15 @@ async function viewManage(slug, tok) {
     if (el.disabled) return;
     el.disabled = true;
     try {
-      await api.saveItem(slug, tok, { id: null, name: el.dataset.name, price: null, url: '', note: '', image_url: '', group_gift: false });
+      const price = Math.round(Number(el.dataset.price)) || null;
+      await api.saveItem(slug, tok, { id: null, name: el.dataset.name, price, url: '', note: '', image_url: '', group_gift: false });
+      store.set(KEY_PICKS, store.get(KEY_PICKS, []).filter(p => p && p.name !== el.dataset.name));
       toast('Gift added');
       S.fresh = false;
       await refresh();
     } catch (e) { el.disabled = false; toast(e.message); }
   };
+  H['picks-clear'] = () => { store.set(KEY_PICKS, []); render(); };
   H['submit:item'] = async (form, btn) => {
     const f = new FormData(form);
     const key = form.dataset.key;

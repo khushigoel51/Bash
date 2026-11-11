@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gift finder: gift ideas by personality and budget | Bash</title>
+<meta name="description" content="Not sure what to gift? Answer five quick questions about their personality, interests and your budget, and get six gift ideas that actually fit. Free.">
+<link rel="canonical" href="https://bashit.in/gift-finder.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bash">
+<meta property="og:locale" content="en_IN">
+<meta property="og:url" content="https://bashit.in/gift-finder.html">
+<meta property="og:title" content="Find the right gift in five questions">
+<meta property="og:description" content="Not sure what to gift? Answer five quick questions about their personality, interests and your budget, and get six gift ideas that actually fit. Free.">
+<meta property="og:image" content="https://bashit.in/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bashit.in/og-image.jpg">
+<meta name="theme-color" content="#E6007A">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--fuchsia:#E6007A;--tangerine:#FF7A29;--gold:#F2B705;--indigo:#1B1035;--cream:#FFF7F0;--ink:#1B1035;--muted:#6E5F80;--card:#FFFFFF;--line:rgba(27,16,53,.12);--wash:#FFE9F3;
+--grad:linear-gradient(100deg,var(--fuchsia),var(--tangerine));--display:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;--body:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--cream:#150C22;--ink:#F4EDFB;--muted:#B3A5C9;--card:#20152F;--line:rgba(244,237,251,.14);--wash:#3A1530;color-scheme:dark}}
+:root[data-theme="dark"]{--cream:#150C22;--ink:#F4EDFB;--muted:#B3A5C9;--card:#20152F;--line:rgba(244,237,251,.14);--wash:#3A1530;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--fuchsia)}
+header{max-width:720px;margin:0 auto;padding:22px 22px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font-family:var(--display);font-weight:800;font-size:1.4rem;color:var(--ink);text-decoration:none}
+.brand span{color:var(--fuchsia)}
+.cta{display:inline-flex;align-items:center;background:var(--grad);color:#fff;text-decoration:none;font-weight:700;padding:10px 16px;border-radius:10px;font-size:.92rem}
+main{max-width:720px;margin:0 auto;padding:36px 22px 20px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,7vw,2.7rem);line-height:1.08;letter-spacing:-.02em;margin:0 0 8px}
+h2{font-family:var(--display);font-size:1.3rem;margin:34px 0 8px;letter-spacing:-.01em}
+h3{font-family:var(--display);font-size:1.08rem;margin:22px 0 4px}
+p,li{margin:0 0 12px}
+ul{padding-left:22px}
+.updated{color:var(--muted);font-size:.92rem;margin-bottom:26px}
+.note{background:var(--wash);border-radius:14px;padding:16px 18px;margin:20px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+@media (max-width:600px){.grid{grid-template-columns:1fr}}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.plan.plus{border:2px solid var(--fuchsia)}
+.plan h2{margin:0}
+.price{font-family:var(--display);font-weight:800;font-size:2.2rem;margin:6px 0 2px}
+.price small{font-family:var(--body);font-size:.9rem;font-weight:500;color:var(--muted)}
+.plan ul{margin:14px 0 0;padding-left:20px}
+.plan li{margin:0 0 6px}
+.pill{display:inline-block;font-size:.78rem;font-weight:700;padding:4px 11px;border-radius:99px;background:var(--gold);color:var(--indigo)}
+footer{max-width:720px;margin:30px auto 0;padding:24px 22px 46px;border-top:1px dashed var(--line);color:var(--muted);font-size:.88rem}
+footer nav{display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:10px}
+footer nav a{color:var(--muted);font-weight:600;text-decoration:none}
+footer nav a:hover{color:var(--ink);text-decoration:underline}
+:focus-visible{outline:2.5px solid var(--fuchsia);outline-offset:2px;border-radius:6px}
+
+main{max-width:760px}
+header,footer{max-width:760px}
+.lede{font-size:1.1rem;color:var(--muted);max-width:60ch;margin:0 0 22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--grad);color:#fff;text-decoration:none;font-weight:700;padding:14px 22px;border-radius:12px;font-size:1rem;min-height:48px;border:none;cursor:pointer;font-family:inherit}
+.btn.ghost{background:transparent;color:var(--fuchsia);border:2px solid var(--fuchsia)}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px;margin:30px 0 6px}
+.why div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.why h3{margin:0 0 4px}
+.why p{margin:0;color:var(--muted);font-size:.94rem}
+.band{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:6px 20px 8px;margin:12px 0}
+.band h3{margin:14px 0 6px;font-size:1rem;color:var(--fuchsia)}
+.band ul{list-style:none;padding:0;margin:0}
+.band li{display:flex;flex-direction:column;padding:10px 0;border-top:1px dashed var(--line);margin:0}
+.band li strong{font-weight:600}
+.band li span{color:var(--muted);font-size:.92rem}
+.tips li{margin-bottom:10px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq{border-top:1px solid var(--line);margin-top:10px}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:15px 2px;font-family:var(--display);font-weight:700;font-size:1.04rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--fuchsia);font-size:1.4rem;line-height:1;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--muted);margin:0 0 16px}
+.end-cta{background:var(--wash);border-radius:20px;padding:22px 22px;margin:34px 0 10px}
+.end-cta h2{margin:0 0 6px}
+.end-cta p{margin:0 0 14px;color:var(--muted)}
+.more{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;padding:0;list-style:none}
+.more li{margin:0}
+.more a{display:inline-block;padding:8px 14px;border-radius:99px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600;font-size:.9rem}
+.more a:hover{border-color:var(--fuchsia)}
+footer nav + nav{margin-top:-2px}
+/* calculator */
+.calc{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px 20px 8px;margin:6px 0 0}
+.calc fieldset{border:0;padding:0;margin:0 0 16px}
+.calc legend{font-weight:700;margin-bottom:8px;font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-block;padding:9px 14px;border-radius:99px;border:1.5px solid var(--line);font-weight:600;font-size:.92rem;cursor:pointer;background:var(--cream);transition:border-color .15s,background .15s}
+.chip input:checked + span{border-color:var(--fuchsia);background:var(--fuchsia);color:#fff}
+.chip input:focus-visible + span{outline:2.5px solid var(--fuchsia);outline-offset:2px}
+.result{position:sticky;bottom:10px;z-index:2;margin:16px 0 0;background:var(--indigo);color:#fff;border-radius:18px;padding:14px 18px;box-shadow:0 12px 30px -12px rgba(230,0,122,.5);display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap}
+.result .lbl{font-size:.85rem;opacity:.8;margin:0}
+.result .amt{font-family:var(--display);font-weight:800;font-size:clamp(2rem,8vw,3rem);line-height:1.05;margin:2px 0 2px;background:linear-gradient(100deg,#FF7AB8,#FFB067);-webkit-background-clip:text;background-clip:text;color:transparent}
+.result .rng{margin:0;font-size:.88rem;opacity:.85}
+.result .btn.ghost{color:#fff;border-color:rgba(255,255,255,.5);padding:8px 14px;min-height:40px;font-size:.9rem}
+table{width:100%;border-collapse:collapse;font-size:.92rem;background:var(--card);border-radius:14px;overflow:hidden}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-weight:700;background:var(--wash)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin:12px 0}
+.small{font-size:.88rem;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebPage",
+   "name": "Gift finder",
+   "url": "https://bashit.in/gift-finder.html",
+   "isPartOf": {
+    "@id": "https://bashit.in/#website"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Bash",
+     "item": "https://bashit.in/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Gift finder",
+     "item": "https://bashit.in/gift-finder.html"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "How does the gift finder work?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "You answer five quick questions about the person: who they are to you, how they spend weekends, what kind of gift lands best, what they’re into, and your budget. It matches those answers against a hand-picked list of gifts that work well in India and shows the six best fits."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is the gift finder free?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes, the quiz and its results are free, with no sign-up."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can I use it to build my own wishlist?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. Choose “Me, for my wishlist” as the first answer, tick the ideas you like, and add them to your Bash in one go."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Are the prices exact?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. They’re rough prices to help you stay in budget. Check the current price before you buy."
+     }
+    }
+   ]
+  },
+  {
+   "@type": "WebApplication",
+   "name": "Bash gift finder",
+   "url": "https://bashit.in/gift-finder.html",
+   "applicationCategory": "LifestyleApplication",
+   "operatingSystem": "Any",
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+   },
+   "description": "A five-question quiz that suggests gift ideas based on someone's personality, interests and your budget."
+  }
+ ]
+}
+</script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z5tagf014s");
+</script>
+<style>
+.quiz.js .q{display:none}
+.quiz.js .q.on{display:block}
+.quiz:not(.js) .progress,.quiz:not(.js) .q-nav{display:none}
+.progress{font-size:.85rem;font-weight:700;color:var(--fuchsia);margin:0 0 10px;min-height:1.2em}
+.q-next{margin-top:14px}
+.link-btn{background:none;border:0;padding:8px 2px;font:inherit;font-weight:600;color:var(--muted);cursor:pointer;text-decoration:underline}
+.picks{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+.pick{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:4px;margin:0}
+.pick h3{margin:0;font-size:1.08rem}
+.pick .pp{font-weight:700;color:var(--fuchsia);font-size:.92rem}
+.pick .why2{color:var(--muted);font-size:.92rem;margin:0}
+.pick .fits{font-size:.8rem;color:var(--muted);margin:2px 0 6px}
+.pick .row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto;padding-top:6px}
+.pick .row a{font-weight:600;font-size:.9rem}
+.tick{display:flex;align-items:center;gap:6px;font-size:.9rem;font-weight:600;cursor:pointer}
+.tick input{width:18px;height:18px;accent-color:var(--fuchsia)}
+</style>
+</head>
+<body>
+<header><a class="brand" href="index.html">Bash<span>.</span></a><a class="cta" href="index.html#/new">Start a Bash</a></header>
+<main>
+
+<h1>Find the right gift in five questions</h1>
+<p class="lede">Tell us a little about them and your budget. You’ll get six gift ideas that actually fit, not another list of “top 50 gifts for him.”</p>
+<form class="calc quiz" id="quiz" onsubmit="return false">
+  <p class="progress" id="progress" aria-live="polite"></p>
+  <fieldset class="q" data-q="who"><legend>Who’s the gift for?</legend><div class="chips"><label class="chip"><input type="radio" name="who" value="me"><span>Me, for my wishlist</span></label><label class="chip"><input type="radio" name="who" value="partner"><span>Partner</span></label><label class="chip"><input type="radio" name="who" value="friend"><span>Friend</span></label><label class="chip"><input type="radio" name="who" value="parent"><span>Parent</span></label><label class="chip"><input type="radio" name="who" value="sibling"><span>Sibling or cousin</span></label><label class="chip"><input type="radio" name="who" value="colleague"><span>Colleague</span></label><label class="chip"><input type="radio" name="who" value="kid"><span>A kid</span></label></div></fieldset>
+  <fieldset class="q" data-q="vibe"><legend data-them="What’s their ideal weekend?" data-me="What’s your ideal weekend?">What’s their ideal weekend?</legend><div class="chips"><label class="chip"><input type="radio" name="vibe" value="home"><span>Cosy at home</span></label><label class="chip"><input type="radio" name="vibe" value="out"><span>Out exploring</span></label><label class="chip"><input type="radio" name="vibe" value="social"><span>With people, always</span></label><label class="chip"><input type="radio" name="vibe" value="maker"><span>Making or fixing something</span></label></div></fieldset>
+  <fieldset class="q" data-q="kind"><legend data-them="What kind of gift makes them happiest?" data-me="What kind of gift makes you happiest?">What kind of gift makes them happiest?</legend><div class="chips"><label class="chip"><input type="radio" name="kind" value="useful"><span>Something used every day</span></label><label class="chip"><input type="radio" name="kind" value="sentimental"><span>Something that shows you get them</span></label><label class="chip"><input type="radio" name="kind" value="experience"><span>A memory, not a thing</span></label><label class="chip"><input type="radio" name="kind" value="treat"><span>A little luxury</span></label></div></fieldset>
+  <fieldset class="q" data-q="int" data-multi="3"><legend data-them="What are they into? Pick up to 3." data-me="What are you into? Pick up to 3.">What are they into? Pick up to 3.</legend><div class="chips"><label class="chip"><input type="checkbox" name="int" value="tech"><span>Tech &amp; gadgets</span></label><label class="chip"><input type="checkbox" name="int" value="food"><span>Food &amp; coffee</span></label><label class="chip"><input type="checkbox" name="int" value="books"><span>Books</span></label><label class="chip"><input type="checkbox" name="int" value="fitness"><span>Fitness &amp; outdoors</span></label><label class="chip"><input type="checkbox" name="int" value="selfcare"><span>Self-care</span></label><label class="chip"><input type="checkbox" name="int" value="style"><span>Fashion &amp; style</span></label><label class="chip"><input type="checkbox" name="int" value="home"><span>Home &amp; plants</span></label><label class="chip"><input type="checkbox" name="int" value="music"><span>Music</span></label><label class="chip"><input type="checkbox" name="int" value="travel"><span>Travel</span></label><label class="chip"><input type="checkbox" name="int" value="creative"><span>Art &amp; making</span></label><label class="chip"><input type="checkbox" name="int" value="gaming"><span>Games</span></label></div>
+    <div class="btn-row q-next"><button type="button" class="btn" data-next>Next</button></div></fieldset>
+  <fieldset class="q" data-q="budget"><legend>What’s the budget?</legend><div class="chips"><label class="chip"><input type="radio" name="budget" value="b1"><span>Under ₹1,000</span></label><label class="chip"><input type="radio" name="budget" value="b2"><span>₹1,000–3,000</span></label><label class="chip"><input type="radio" name="budget" value="b3"><span>₹3,000–7,000</span></label><label class="chip"><input type="radio" name="budget" value="b4"><span>₹7,000–15,000</span></label><label class="chip"><input type="radio" name="budget" value="b5"><span>₹15,000+ (chip in together)</span></label></div></fieldset>
+  <div class="btn-row q-nav"><button type="button" class="link-btn" id="back" hidden>‹ Back</button></div>
+</form>
+<section id="results" hidden aria-live="polite">
+  <h2 id="res-title">Six ideas that fit</h2>
+  <p class="small" id="res-sub"></p>
+  <ol class="picks" id="picks"></ol>
+  <div class="btn-row" style="margin-top:16px">
+    <button type="button" class="btn" id="to-bash" hidden>Add ticked ideas to my Bash</button>
+    <a class="btn ghost" id="share" target="_blank" rel="noopener" href="https://wa.me/?text=">Share these ideas</a>
+    <button type="button" class="link-btn" id="restart">Start over</button>
+  </div>
+  <p class="small" style="margin-top:12px">Prices are rough guides. Check the current price before you buy.</p>
+</section>
+
+<section class="end-cta">
+  <h2>Hosting something?</h2>
+  <p>Make a Bash and let guests pick from your list, so nobody buys the same thing twice. Free to start, no sign-in for guests.</p>
+  <a class="btn" href="index.html#/new">Start a Bash</a>
+</section>
+
+<h2>Questions</h2>
+<div class="faq"><details><summary>How does the gift finder work?</summary><p>You answer five quick questions about the person: who they are to you, how they spend weekends, what kind of gift lands best, what they’re into, and your budget. It matches those answers against a hand-picked list of gifts that work well in India and shows the six best fits.</p></details><details><summary>Is the gift finder free?</summary><p>Yes, the quiz and its results are free, with no sign-up.</p></details><details><summary>Can I use it to build my own wishlist?</summary><p>Yes. Choose “Me, for my wishlist” as the first answer, tick the ideas you like, and add them to your Bash in one go.</p></details><details><summary>Are the prices exact?</summary><p>No. They’re rough prices to help you stay in budget. Check the current price before you buy.</p></details></div>
+<h2>More from Bash</h2>
+<ul class="more"><li><a href="shagun-calculator.html">🪔 Shagun calculator</a></li><li><a href="wedding-gift-registry.html">💍 Wedding registry</a></li><li><a href="birthday-wishlist.html">🎂 Birthday wishlist</a></li><li><a href="baby-shower-registry.html">🍼 Baby shower registry</a></li><li><a href="housewarming-gift-list.html">🏡 Housewarming gift list</a></li><li><a href="anniversary-gift-ideas.html">🥂 Anniversary gifts</a></li></ul>
+
+</main>
+<footer>
+  <nav aria-label="Footer">
+    <a href="index.html">Home</a><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a><a href="refund.html">Refunds &amp; cancellations</a><a href="contact.html">Contact</a>
+  </nav>
+  <nav aria-label="Guides"><a href="gift-finder.html">Gift finder</a><a href="shagun-calculator.html">Shagun calculator</a><a href="wedding-gift-registry.html">Wedding registry</a><a href="birthday-wishlist.html">Birthday wishlist</a><a href="baby-shower-registry.html">Baby shower registry</a><a href="housewarming-gift-list.html">Housewarming gift list</a><a href="anniversary-gift-ideas.html">Anniversary gifts</a></nav>
+  <div>Bash · gifting that’s actually fun to send · <a href="mailto:hello@bashit.in">hello@bashit.in</a></div>
+</footer>
+<script>
+(function () {
+  var CAT = [{"n": "Smart LED bulb set", "p": 1200, "i": ["tech", "home"], "v": ["home"], "k": ["useful"], "w": [], "y": "Change the mood of a room from their phone."}, {"n": "Wireless earbuds", "p": 2500, "i": ["tech", "music", "fitness"], "v": ["out", "social"], "k": ["useful"], "w": [], "y": "Used daily, on commutes and at the gym."}, {"n": "20,000 mAh power bank", "p": 1500, "i": ["tech", "travel"], "v": ["out"], "k": ["useful"], "w": [], "y": "The thing everyone borrows on a trip."}, {"n": "Bluetooth speaker", "p": 3500, "i": ["music", "tech"], "v": ["social", "out"], "k": ["useful", "treat"], "w": [], "y": "Instant party, wherever they are."}, {"n": "Kindle Paperwhite", "p": 14000, "i": ["books", "tech", "travel"], "v": ["home"], "k": ["useful", "treat"], "w": [], "y": "A whole library that fits in a bag."}, {"n": "Noise-cancelling headphones", "p": 9000, "i": ["music", "tech", "travel"], "v": ["home", "out"], "k": ["treat", "useful"], "w": [], "y": "Quiet on flights, focus at work."}, {"n": "Smartwatch", "p": 4000, "i": ["tech", "fitness"], "v": ["out"], "k": ["useful"], "w": [], "y": "Steps, sleep and notifications on the wrist."}, {"n": "Instant camera", "p": 6500, "i": ["creative", "travel"], "v": ["social", "out"], "k": ["sentimental", "treat"], "w": [], "y": "Prints memories on the spot."}, {"n": "Mechanical keyboard", "p": 4500, "i": ["tech", "gaming"], "v": ["maker", "home"], "k": ["useful", "treat"], "w": [], "y": "A satisfying upgrade for long work hours."}, {"n": "Gaming controller", "p": 4500, "i": ["gaming"], "v": ["home", "social"], "k": ["treat"], "w": [], "y": "For the friend who games every weekend."}, {"n": "Robot vacuum", "p": 16000, "i": ["home", "tech"], "v": ["home"], "k": ["useful"], "w": ["couple"], "y": "Hands back an hour every week."}, {"n": "Digital photo frame", "p": 6000, "i": ["tech", "home"], "v": ["home"], "k": ["sentimental"], "w": ["parent"], "y": "Load it with family photos before you gift it."}, {"n": "Tablet", "p": 35000, "i": ["tech", "creative", "books"], "v": ["home"], "k": ["useful", "treat"], "w": [], "y": "Reading, drawing and video calls in one."}, {"n": "Gaming console", "p": 50000, "i": ["gaming", "tech"], "v": ["home", "social"], "k": ["treat"], "w": [], "y": "A big group gift that gets used for years."}, {"n": "Specialty coffee beans sampler", "p": 900, "i": ["food"], "v": ["home"], "k": ["treat"], "w": [], "y": "Three small roasts to discover a favourite."}, {"n": "Pour-over coffee kit", "p": 1800, "i": ["food"], "v": ["home", "maker"], "k": ["useful"], "w": [], "y": "Turns the morning coffee into a ritual."}, {"n": "Gourmet tea gift box", "p": 1200, "i": ["food", "selfcare"], "v": ["home"], "k": ["treat"], "w": ["parent"], "y": "Single-estate teas for slow mornings."}, {"n": "Air fryer", "p": 7000, "i": ["food", "home"], "v": ["home"], "k": ["useful"], "w": ["couple"], "y": "Crisp food, less oil, used every week."}, {"n": "Espresso machine", "p": 18000, "i": ["food"], "v": ["home"], "k": ["treat"], "w": ["couple"], "y": "Café coffee at home, every morning."}, {"n": "Cooking class for two", "p": 4000, "i": ["food"], "v": ["social", "out"], "k": ["experience"], "w": ["couple"], "y": "A fun evening and a new recipe to keep."}, {"n": "Artisanal chocolate box", "p": 1000, "i": ["food"], "v": ["social"], "k": ["treat"], "w": [], "y": "Small-batch chocolate, always welcome."}, {"n": "Cast-iron skillet", "p": 1800, "i": ["food", "home"], "v": ["maker", "home"], "k": ["useful"], "w": [], "y": "Lasts a lifetime and gets better with use."}, {"n": "Fine-dining dinner voucher", "p": 5000, "i": ["food"], "v": ["out", "social"], "k": ["experience"], "w": ["couple", "parent"], "y": "A night out they wouldn’t book themselves."}, {"n": "Indie bookstore book box", "p": 1500, "i": ["books"], "v": ["home"], "k": ["treat"], "w": [], "y": "A few hand-picked reads in one parcel."}, {"n": "Clip-on reading light", "p": 900, "i": ["books"], "v": ["home"], "k": ["useful"], "w": [], "y": "For the one who reads late at night."}, {"n": "Audiobook subscription, 6 months", "p": 1200, "i": ["books", "travel"], "v": ["out"], "k": ["useful"], "w": [], "y": "Books for the commute."}, {"n": "Leather journal and fountain pen", "p": 2000, "i": ["books", "creative"], "v": ["home", "maker"], "k": ["sentimental", "useful"], "w": [], "y": "For the one who writes things down."}, {"n": "Yoga mat and blocks", "p": 1800, "i": ["fitness", "selfcare"], "v": ["home"], "k": ["useful"], "w": [], "y": "Everything for practice at home."}, {"n": "Running shoes", "p": 5500, "i": ["fitness"], "v": ["out"], "k": ["useful"], "w": [], "y": "Get their size from someone who knows."}, {"n": "Fitness band", "p": 2500, "i": ["fitness", "tech"], "v": ["out"], "k": ["useful"], "w": [], "y": "Tracks steps and sleep without the smartwatch price."}, {"n": "Adjustable dumbbells", "p": 8000, "i": ["fitness"], "v": ["home"], "k": ["useful"], "w": [], "y": "A full home-gym rack in one pair."}, {"n": "Trek or adventure day", "p": 3500, "i": ["travel", "fitness"], "v": ["out"], "k": ["experience"], "w": [], "y": "A day outdoors they’ll talk about for months."}, {"n": "Insulated steel bottle", "p": 1000, "i": ["fitness", "travel"], "v": ["out"], "k": ["useful"], "w": [], "y": "Cold for 24 hours, used every day."}, {"n": "Spa day voucher", "p": 4500, "i": ["selfcare"], "v": ["out"], "k": ["experience", "treat"], "w": ["couple", "parent"], "y": "A few hours of doing nothing at all."}, {"n": "Aroma diffuser and oils", "p": 1800, "i": ["selfcare", "home"], "v": ["home"], "k": ["treat"], "w": [], "y": "Makes any room calmer."}, {"n": "Silk pillowcase and sleep mask", "p": 2200, "i": ["selfcare", "style"], "v": ["home"], "k": ["treat"], "w": [], "y": "Small luxury, every single night."}, {"n": "Neck and shoulder massager", "p": 3500, "i": ["selfcare", "tech"], "v": ["home"], "k": ["useful"], "w": ["parent"], "y": "Relief after long days at a desk."}, {"n": "Skincare gift set", "p": 2500, "i": ["selfcare", "style"], "v": ["home"], "k": ["treat"], "w": [], "y": "Pick a brand they already use."}, {"n": "Weighted blanket", "p": 5000, "i": ["selfcare", "home"], "v": ["home"], "k": ["useful"], "w": [], "y": "Cosy, and many people say they sleep better."}, {"n": "Leather wallet or cardholder", "p": 1800, "i": ["style"], "v": ["out"], "k": ["useful"], "w": [], "y": "Used daily, replaced rarely."}, {"n": "Perfume", "p": 4000, "i": ["style"], "v": ["social", "out"], "k": ["treat"], "w": ["partner"], "y": "Find out their scent family first."}, {"n": "Classic wristwatch", "p": 9000, "i": ["style"], "v": ["out", "social"], "k": ["treat", "sentimental"], "w": ["partner", "parent"], "y": "A gift that gets worn for years."}, {"n": "Silver jewellery piece", "p": 3500, "i": ["style"], "v": ["social"], "k": ["sentimental", "treat"], "w": ["partner"], "y": "Personal without being over the top."}, {"n": "Handwoven stole or scarf", "p": 2500, "i": ["style"], "v": ["social"], "k": ["sentimental"], "w": ["parent"], "y": "Craft they’ll wear to every function."}, {"n": "Sunglasses", "p": 6000, "i": ["style", "travel"], "v": ["out"], "k": ["treat"], "w": [], "y": "Get the frame shape right with a quick hint."}, {"n": "Indoor plant in a ceramic pot", "p": 1200, "i": ["home"], "v": ["home", "maker"], "k": ["useful"], "w": [], "y": "Pick a hard-to-kill one, like a snake plant."}, {"n": "Scented candle set", "p": 1000, "i": ["home", "selfcare"], "v": ["home"], "k": ["treat"], "w": [], "y": "An easy win for almost anyone."}, {"n": "Throw blanket", "p": 2500, "i": ["home"], "v": ["home"], "k": ["useful"], "w": [], "y": "For the couch they never leave."}, {"n": "Handmade ceramic mug set", "p": 1500, "i": ["home", "food"], "v": ["home"], "k": ["useful"], "w": [], "y": "Every cup of chai feels nicer."}, {"n": "Custom illustrated family portrait", "p": 3000, "i": ["creative", "home"], "v": ["home"], "k": ["sentimental"], "w": ["parent", "couple"], "y": "Hangs on the wall for decades."}, {"n": "Printed photo book", "p": 2000, "i": ["home"], "v": ["home"], "k": ["sentimental"], "w": ["parent", "couple", "partner"], "y": "Collect old photos from the family."}, {"n": "Record player", "p": 12000, "i": ["music"], "v": ["home"], "k": ["treat"], "w": [], "y": "For the one who misses the sound of vinyl."}, {"n": "Ukulele", "p": 2500, "i": ["music", "creative"], "v": ["home", "maker"], "k": ["experience", "useful"], "w": [], "y": "Easy to start, fun from day one."}, {"n": "Concert or gig tickets", "p": 4000, "i": ["music"], "v": ["out", "social"], "k": ["experience"], "w": ["partner"], "y": "A night they’ll remember."}, {"n": "Music streaming, 1 year", "p": 1400, "i": ["music"], "v": ["out", "home"], "k": ["useful"], "w": [], "y": "Ad-free music, every day."}, {"n": "Cabin trolley bag", "p": 5500, "i": ["travel"], "v": ["out"], "k": ["useful"], "w": [], "y": "For the one who’s always on the move."}, {"n": "Weekend getaway stay", "p": 12000, "i": ["travel"], "v": ["out"], "k": ["experience"], "w": ["couple", "parent", "partner"], "y": "Two nights away from everything."}, {"n": "Travel organiser kit", "p": 1500, "i": ["travel"], "v": ["out"], "k": ["useful"], "w": [], "y": "Packing cubes make every trip easier."}, {"n": "Scratch-off world map", "p": 1200, "i": ["travel", "home"], "v": ["home"], "k": ["sentimental"], "w": [], "y": "Tracks every place they’ve been."}, {"n": "Adventure try-out (paragliding, scuba)", "p": 5000, "i": ["travel", "fitness"], "v": ["out"], "k": ["experience"], "w": [], "y": "Something they’ve always talked about."}, {"n": "Watercolour paint set", "p": 1800, "i": ["creative"], "v": ["home", "maker"], "k": ["useful"], "w": [], "y": "Good paints make a real difference."}, {"n": "Pottery workshop", "p": 2500, "i": ["creative"], "v": ["maker", "social"], "k": ["experience"], "w": [], "y": "Muddy hands and a bowl to take home."}, {"n": "Calligraphy starter kit", "p": 1200, "i": ["creative"], "v": ["maker", "home"], "k": ["useful"], "w": [], "y": "A calm, screen-free hobby."}, {"n": "Candle-making kit", "p": 1500, "i": ["creative", "home"], "v": ["maker"], "k": ["experience"], "w": [], "y": "A weekend project with a nice result."}, {"n": "Pocket photo printer", "p": 7000, "i": ["creative", "tech"], "v": ["social"], "k": ["sentimental"], "w": [], "y": "Prints phone photos in seconds."}, {"n": "Strategy board game", "p": 3500, "i": ["gaming"], "v": ["social", "home"], "k": ["experience"], "w": [], "y": "Turns any evening into game night."}, {"n": "Party card game", "p": 900, "i": ["gaming"], "v": ["social"], "k": ["treat"], "w": [], "y": "Instant laughs with a group."}, {"n": "Gaming gift card", "p": 2000, "i": ["gaming"], "v": ["home"], "k": ["treat"], "w": [], "y": "They choose the game they actually want."}, {"n": "Gaming headset", "p": 4000, "i": ["gaming", "tech"], "v": ["home"], "k": ["useful"], "w": [], "y": "Clear audio for long sessions."}, {"n": "LEGO set", "p": 3500, "i": ["creative", "gaming"], "v": ["home", "maker"], "k": ["treat"], "w": ["kid"], "y": "Hours of building, and it lasts."}, {"n": "Kids’ science kit", "p": 1500, "i": ["creative", "tech"], "v": ["maker"], "k": ["useful"], "w": ["kid"], "y": "Experiments they can do at home."}, {"n": "Picture book bundle", "p": 1000, "i": ["books"], "v": ["home"], "k": ["sentimental"], "w": ["kid"], "y": "Bedtime stories for months."}, {"n": "Art supplies box", "p": 1200, "i": ["creative"], "v": ["maker"], "k": ["useful"], "w": ["kid"], "y": "Crayons, paints and a sketchbook in one."}, {"n": "Kids’ bicycle", "p": 7000, "i": ["fitness"], "v": ["out"], "k": ["useful"], "w": ["kid"], "y": "Check the frame size for their age."}, {"n": "Family board game for kids", "p": 2500, "i": ["gaming"], "v": ["social"], "k": ["experience"], "w": ["kid"], "y": "Game night the whole family can play."}, {"n": "Soft plush toy", "p": 800, "i": ["home"], "v": ["home"], "k": ["sentimental"], "w": ["kid"], "y": "The one that goes everywhere with them."}, {"n": "Kids’ storytelling speaker", "p": 4500, "i": ["music", "books", "tech"], "v": ["home"], "k": ["useful"], "w": ["kid"], "y": "Stories and songs without a screen."}];
+  var LABEL = {"int": {"tech": "Tech & gadgets", "food": "Food & coffee", "books": "Books", "fitness": "Fitness & outdoors", "selfcare": "Self-care", "style": "Fashion & style", "home": "Home & plants", "music": "Music", "travel": "Travel", "creative": "Art & making", "gaming": "Games"}, "vibe": {"home": "Cosy at home", "out": "Out exploring", "social": "With people, always", "maker": "Making or fixing something"}, "kind": {"useful": "Something used every day", "sentimental": "Something that shows you get them", "experience": "A memory, not a thing", "treat": "A little luxury"}};
+  var BUD = {"b1": [0, 1000], "b2": [1000, 3000], "b3": [3000, 7000], "b4": [7000, 15000], "b5": [15000, 80000]};
+  var form = document.getElementById('quiz'), qs = [].slice.call(form.querySelectorAll('.q')), i = 0;
+  var prog = document.getElementById('progress'), back = document.getElementById('back');
+  var res = document.getElementById('results'), list = document.getElementById('picks'), toBash = document.getElementById('to-bash');
+  var A = {}, shown = [];
+  function inr(n) { return '₹' + Number(n).toLocaleString('en-IN'); }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function show(n) {
+    i = n;
+    qs.forEach(function (q, j) { q.classList.toggle('on', j === i); });
+    prog.textContent = 'Question ' + (i + 1) + ' of ' + qs.length;
+    back.hidden = i === 0;
+    var me = A.who === 'me';
+    qs[i].querySelectorAll('legend[data-them]').forEach(function (l) { l.textContent = me ? l.dataset.me : l.dataset.them; });
+    var first = qs[i].querySelector('input'); if (first && n > 0) first.focus({ preventScroll: true });
+  }
+  function score(g, cap) {
+    var s = 0, who = A.who, ints = A.int || [];
+    if (who === 'kid' ? g.w.indexOf('kid') < 0 : g.w.indexOf('kid') >= 0) return -1e9;
+    ints.forEach(function (x) { if (g.i.indexOf(x) >= 0) s += 4; });
+    if (g.v.indexOf(A.vibe) >= 0) s += 2;
+    if (g.k.indexOf(A.kind) >= 0) s += 2;
+    if ((who === 'parent' && g.w.indexOf('parent') >= 0) || (who === 'partner' && (g.w.indexOf('partner') >= 0 || g.w.indexOf('couple') >= 0))) s += 2;
+    if (who === 'colleague' && g.k.indexOf('sentimental') >= 0) s -= 3;
+    var b = BUD[A.budget];
+    if (g.p > b[1] * cap) return -1e9;
+    if (g.p >= b[0]) s += 1.5; else if (g.p < b[0] * 0.5) s -= 2; else s -= 0.5;
+    return s;
+  }
+  function results() {
+    function rank(cap) {
+      return CAT.map(function (g) { return { g: g, s: score(g, cap) }; }).filter(function (x) { return x.s > -1e8; })
+        .sort(function (a, b) { return b.s - a.s || b.g.p - a.g.p; });
+    }
+    var ranked = rank(1.15), b = BUD[A.budget];
+    if (ranked.length < 6) ranked = ranked.concat(rank(4).filter(function (x) { return x.g.p > b[1] * 1.15; }));
+    var per = {}, out = [];
+    ranked.forEach(function (x) { var key = x.g.i[0]; if (out.length < 6 && (per[key] || 0) < 2) { out.push(x.g); per[key] = (per[key] || 0) + 1; } });
+    ranked.forEach(function (x) { if (out.length < 6 && out.indexOf(x.g) < 0) out.push(x.g); });
+    shown = out;
+    var me = A.who === 'me';
+    document.getElementById('res-title').textContent = me ? 'Six ideas for your wishlist' : 'Six gift ideas that fit';
+    document.getElementById('res-sub').textContent = me ? 'Tick the ones you want, then add them to your Bash.' : 'Ranked by how well they match your answers.';
+    list.innerHTML = out.map(function (g, n) {
+      var fits = g.i.filter(function (x) { return (A.int || []).indexOf(x) >= 0; }).map(function (x) { return LABEL.int[x]; });
+      if (g.v.indexOf(A.vibe) >= 0) fits.push(LABEL.vibe[A.vibe].toLowerCase());
+      if (g.k.indexOf(A.kind) >= 0) fits.push(LABEL.kind[A.kind].toLowerCase());
+      return '<li class="pick"><h3>' + esc(g.n) + '</h3><span class="pp">around ' + inr(g.p) + (g.p > BUD[A.budget][1] * 1.15 ? ' · a bit over budget' : '') + '</span><p class="why2">' + esc(g.y) + '</p>' +
+        (fits.length ? '<p class="fits">Fits: ' + esc(fits.join(' · ')) + '</p>' : '') +
+        '<div class="row"><a href="https://www.amazon.in/s?k=' + encodeURIComponent(g.n) + '" target="_blank" rel="noopener">Find it ›</a>' +
+        (me ? '<label class="tick"><input type="checkbox" data-n="' + n + '"' + (n < 4 ? ' checked' : '') + '> Add</label>' : '') + '</div></li>';
+    }).join('');
+    toBash.hidden = !me;
+    var txt = (me ? 'My gift ideas' : 'Gift ideas') + ' from Bash:\n' + out.map(function (g) { return '• ' + g.n + ' (around ' + inr(g.p) + ')'; }).join('\n') + '\n\nFind your own in five questions: https://bashit.in/gift-finder.html';
+    document.getElementById('share').href = 'https://wa.me/?text=' + encodeURIComponent(txt);
+    form.hidden = true; res.hidden = false;
+    res.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  form.addEventListener('change', function (ev) {
+    var t = ev.target, q = t.closest('.q');
+    if (t.type === 'checkbox') {
+      var on = q.querySelectorAll('input:checked');
+      if (on.length > 3) { t.checked = false; return; }
+      A.int = [].map.call(q.querySelectorAll('input:checked'), function (x) { return x.value; });
+      return;
+    }
+    A[t.name] = t.value;
+    if (q.dataset.q === 'budget') return results();
+    setTimeout(function () { show(i + 1); }, 180);
+  });
+  form.querySelector('[data-next]').addEventListener('click', function () { show(i + 1); });
+  back.addEventListener('click', function () { show(Math.max(0, i - 1)); });
+  document.getElementById('restart').addEventListener('click', function () {
+    form.reset(); A = {}; res.hidden = true; form.hidden = false; show(0); form.scrollIntoView({ block: 'start' });
+  });
+  toBash.addEventListener('click', function () {
+    var picks = [].map.call(list.querySelectorAll('input:checked'), function (c) { var g = shown[+c.dataset.n]; return { name: g.n, price: g.p }; });
+    try { localStorage.setItem('bash_picks', JSON.stringify(picks)); } catch (e) {}
+    var mine = []; try { mine = JSON.parse(localStorage.getItem('bash_mine') || '[]'); } catch (e) {}
+    location.href = mine.length ? 'index.html#/m/' + encodeURIComponent(mine[0].slug) + '/' + encodeURIComponent(mine[0].token) : 'index.html#/new';
+  });
+  form.classList.add('js');
+  show(0);
+})();
+</script>
+</body>
+</html>
